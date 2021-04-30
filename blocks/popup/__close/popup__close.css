@@ -1,15 +1,13 @@
 .popup__close {
   padding: 0;
+  width: 26px;
+  height: 26px;
+  background-size: cover;
   position: absolute;
   top: -34px;
-  left: 421.72px;
-  width: 48.28px;
-  height: 48.28px;
-  background-size: 40px 40px;
+  left: calc(100% - 19px);
   background-color: transparent;
   background-image: url(../../../images/close_icon.png);
-  /*background-repeat: no-repeat;
-  background-position: center;*/
   cursor: pointer;
   border-style: none;
   opacity: 1;
@@ -18,4 +16,13 @@
 
 .popup__close:hover {
   opacity: 0.6;
+}
+
+@media (min-width: 768px) {
+  .popup__close {
+    width: 48.28px;
+    height: 48.28px;
+    top: -40px;
+    left: 421.72px;
+  }
 }

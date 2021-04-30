@@ -16,5 +16,7 @@
 @media (min-width: 1024px) {
   .profile-info__activity{
     padding-top: 16px;
+    font-size: 14px;
+    line-height: 17px;
   }
 }
