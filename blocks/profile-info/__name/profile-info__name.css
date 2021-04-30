@@ -12,6 +12,14 @@
   overflow: hidden;
 }
 
+@media (min-width: 414px) {
+  .profile-info__name {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+
 @media (min-width: 768px) {
   .profile-info__name {
     font-size: 42px;

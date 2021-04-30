@@ -13,6 +13,20 @@
   overflow: hidden; /*обрезание длинного текста с многоточием*/
 }
 
+@media (min-width: 414px) {
+  .profile-info__activity {
+    font-size: 16px;
+    line-height: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .profile-info__activity {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
 @media (min-width: 1024px) {
   .profile-info__activity{
     padding-top: 16px;
