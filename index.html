@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Место</title>
+  <link rel="stylesheet" href="pages/index.css">
+</head>
+<body class="body">
+  <div class="page">
+    <header class="header">
+      <img class="header__logo" src="images/logo.png" alt="Логотип"> <!--https://learn.javascript.ru/space-under-img-->
+    </header>
+    <main class="content">
+      <nav class="profile">  <!--section-->
+        <img class="avatar" src="images/kusto.jpg" alt="Жак-Ив Кусто">
+        <div class="profile-info">
+          <div class="profile-info__container">
+            <h1 class="profile-info__name">Жак-Ив Кусто</h1>
+            <button class="edit-button" type="button" name="send"></button>
+          </div>
+          <p class="profile-info__activity">Исследователь океана</p>
+        </div>
+        <button class="add-button"></button>
+      </nav>
+      <section class="elements">
+        <article class="element">
+          <img class="element__image" src="images/karachaevsk.jpg" alt="Карачаевск">
+          <div class="element__text">
+            <h2 class="element__title">Карачаевск</h2>
+            <button type="button" class="element__like" src="images/like.svg" alt="Лайк">
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="images/gora_elbrus.jpg" alt="Гора Эльбрус">
+          <div class="element__text">
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button type="button" class="element__like" src="images/like.svg" alt="Лайк">
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="images/dombay.jpg" alt="Домбай">
+          <div class="element__text">
+            <h2 class="element__title">Домбай</h2>
+            <button type="button" class="element__like" src="images/like.svg" alt="Лайк">
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="images/gora_elbrus.jpg" alt="Гора Эльбрус">
+          <div class="element__text">
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button type="button" class="element__like" src="images/like.svg" alt="Лайк">
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="images/dombay.jpg" alt="Домбай">
+          <div class="element__text">
+            <h2 class="element__title">Домбай</h2>
+            <button type="button" class="element__like" src="images/like.svg" alt="Лайк">
+          </div>
+        </article>
+        <article class="element">
+          <img class="element__image" src="images/karachaevsk.jpg" alt="Карачаевск">
+          <div class="element__text">
+            <h2 class="element__title">Карачаево-Черкессия</h2>
+            <button type="button" class="element__like" src="images/like.svg" alt="Лайк">
+          </div>
+        </article>
+      </section>
+    </main>
+    <footer class="footer">
+      <h3 class="footer__title">&copy; 2020 Mesto Russia</h3>
+      <p class="footer__subtitle">Светлана Живцова</p>
+    </footer>
+  </div>
+
+  <div class="popup">
+    <div class="popup__container">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form name="form" class="popup__form" action="#" autocomplete="on">
+          <input type="text" class="popup__input popup__input_user_name"  name="name" value=""> <!--модификатор не для стилей, а для js (можно id, но это не по БЭМ)-->
+          <input type="text" class="popup__input popup__input_user_job " name="job" value="">
+          <button type="submit" class="popup__save">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <script src="scripts/index.js"></script>
+</body>
+</html>
