@@ -1,12 +1,13 @@
-.add-button {
+.profile__add-button {
   margin-top: 36px;
+  padding: 0;
   width: 100%;
   height: 50px;
   box-sizing: border-box;
   border: 2px solid #FFFFFF;
   border-radius: 2px;
   background-color: black;
-  background-image: url(../../images/plus.png);
+  background-image: url(../../../images/plus.png);
   background-size: 22px 22px;
   background-position: center;
   background-repeat: no-repeat;
@@ -16,18 +17,18 @@
   transition: opacity .1s ease-in;
 }
 
-.add-button:hover {
+.profile__add-button:hover {
   opacity: 0.6;
 }
 
 @media (min-width: 768px) {
-  .add-button {
+  .profile__add-button {
     width: 150px;
   }
 }
 
 @media (min-width: 1024px) {
-  .add-button {
+  .profile__add-button {
     margin-top: 0;
     width: 150px;
   }

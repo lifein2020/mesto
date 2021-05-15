@@ -1,6 +1,7 @@
 .page {
   margin: 0 auto;
   max-width: 1280px;
+  min-width: 320px;
   background-color:  #000000;
   /*вендорное св-во для сглаживания кастомных шрифтов*/
   -webkit-font-smoothing: antialiased;

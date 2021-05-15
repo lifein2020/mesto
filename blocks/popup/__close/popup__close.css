@@ -1,11 +1,11 @@
 .popup__close {
   padding: 0;
-  width: 26px;
-  height: 26px;
+  width: 36.77px;
+  height: 36.77px;
   background-size: cover;
   position: absolute;
-  top: -34px;
-  left: calc(100% - 19px);
+  top: -50.39px;
+  right: 0;  /*left: calc(100% - 36.77px);  Слишком большое значение*/
   background-color: transparent;
   background-image: url(../../../images/close_icon.png);
   cursor: pointer;
@@ -20,9 +20,9 @@
 
 @media (min-width: 768px) {
   .popup__close {
-    width: 48.28px;
-    height: 48.28px;
-    top: -40px;
-    left: 421.72px;
+    width: 56px;
+    height: 56px;
+    top: -48px;
+    right: -50px;
   }
 }

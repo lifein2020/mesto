@@ -1,5 +1,5 @@
 const popup = document.querySelector('.popup');
-const openPopupButton = document.querySelector('.edit-button');
+const openPopupButton = document.querySelector('.profile-info__edit-button');
 const closePopupButton = document.querySelector('.popup__close');
 // Находим форму в DOM
 let formElement = document.querySelector('.popup__form'); /*либо не document, а popupElement - если попапов несколько https://learn.javascript.ru/form-elements*/
@@ -15,10 +15,6 @@ function togglePopup() {
   jobInput.value = profileJob.textContent;   // из <p>
   popup.classList.toggle('popup_is-opened');
 }
-
-openPopupButton.addEventListener('click', togglePopup);
-closePopupButton.addEventListener('click', togglePopup);
-
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -39,6 +35,9 @@ function formSubmitHandler (evt) {
 // он будет следить за событием “submit” - «отправка»
 formElement.addEventListener('submit', formSubmitHandler);
 //Мы должны вешать обработчик сабмита на тег формы. Повесила на <button type="submit" class="popup__save">
+
+openPopupButton.addEventListener('click', togglePopup);
+closePopupButton.addEventListener('click', togglePopup);
 
 
 //ВАРИАНТ 2 вместо function togglePopup()

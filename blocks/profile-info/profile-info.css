@@ -6,11 +6,9 @@
 
 @media (min-width: 1024px) {
   .profile-info {
-    margin-right: 244px;
+    flex-grow: 1; /*вместо margin-right: 244px; и не нужно max-width: 336px;*/
     margin-left: 30px;
-    align-self: baseline;
-    max-width: 336px;
-    max-height: 73px;
     text-align: left;
+    align-self: baseline;
   }
 }

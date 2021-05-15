@@ -1,6 +1,7 @@
 .element__like {
   margin-top: 5px;
-  margin-right: 15px;
+  margin-right: 5px;
+  margin-bottom: -1px;
   padding: 0;
   border-style: none;
   cursor: pointer;
