@@ -42,20 +42,34 @@ const initialCards = [
 ];
 
 function createCard(itemData) {
+  //создать карточку
   const newElement = elementTemplate.content.querySelector('.element').cloneNode(true);
   newElement.querySelector('.element__image').src = itemData.link;
+  newElement.querySelector('.element__image').alt = itemData.name;
   newElement.querySelector('.element__title').textContent = itemData.name;
-  elements.append(newElement);
+  //ставить, снимать лайк
+  const elementLike = newElement.querySelector('.element__like');
+  elementLike.addEventListener('click', function (evt) {
+  evt.target.classList.toggle('element__like_active');
+  });
+
+  return newElement;
+  //elements.append(newElement);
 }
 
+//динамически добавить карточки на страницу
 initialCards.forEach(function(currentItem) {
-  createCard(currentItem);
+  const newCard = createCard(currentItem);
+  elements.append(newCard);
+
+  //createCard(currentItem);
   /*Вместо кода ниже, который вынесли в отдельную функцию createCard() */
   /*const newElement = elementTemplate.content.querySelector('.element').cloneNode(true);
   newElement.querySelector('.element__image').src = currentItem.link;
   newElement.querySelector('.element__title').textContent = currentItem.name;
   elements.append(newElement);*/
 });
+
 
 
 function togglePopup() {
