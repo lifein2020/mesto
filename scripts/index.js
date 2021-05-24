@@ -10,6 +10,48 @@ let jobInput = document.querySelector('.popup__input_user_job');
 let profileName = document.querySelector('.profile-info__name');
 let profileJob = document.querySelector('.profile-info__activity');
 
+const elementTemplate = document.querySelector('#element-template');
+const elements = document.querySelector('.elements');
+const addButton = document.querySelector('.profile__add-button');
+//console.log(addButton);
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+initialCards.forEach(function(currentItem) {
+  //const currentItom = initialCards [i];
+  const newElement = elementTemplate.content.querySelector('.element').cloneNode(true);
+  newElement.querySelector('.element__image').src = currentItem.link;
+  newElement.querySelector('.element__title').textContent = currentItem.name;
+  //console.log(newElement);
+  elements.append(newElement);
+});
+
+
+
 function togglePopup() {
   nameInput.value = profileName.textContent; //значения полей формы берутся из тегов <h1>
   jobInput.value = profileJob.textContent;   // из <p>
@@ -61,4 +103,6 @@ popupOpenButton.addEventListener('click', openPopup);
 popupCloseButton.addEventListener('click', closePopup);
 formElement.addEventListener('submit', formSubmitHandler);
 } */
+
+
 
