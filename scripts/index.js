@@ -41,15 +41,21 @@ const initialCards = [
   }
 ];
 
-initialCards.forEach(function(currentItem) {
-  //const currentItom = initialCards [i];
+function createCard(itemData) {
   const newElement = elementTemplate.content.querySelector('.element').cloneNode(true);
+  newElement.querySelector('.element__image').src = itemData.link;
+  newElement.querySelector('.element__title').textContent = itemData.name;
+  elements.append(newElement);
+}
+
+initialCards.forEach(function(currentItem) {
+  createCard(currentItem);
+  /*Вместо кода ниже, который вынесли в отдельную функцию createCard() */
+  /*const newElement = elementTemplate.content.querySelector('.element').cloneNode(true);
   newElement.querySelector('.element__image').src = currentItem.link;
   newElement.querySelector('.element__title').textContent = currentItem.name;
-  //console.log(newElement);
-  elements.append(newElement);
+  elements.append(newElement);*/
 });
-
 
 
 function togglePopup() {
