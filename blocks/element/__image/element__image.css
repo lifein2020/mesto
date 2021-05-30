@@ -3,6 +3,9 @@
   object-fit: cover;
   /*border-radius: 10px 10px 0px 0px;*/
   transform: matrix(-1, 0, 0, 1, 0, 0);
+  /*padding-bottom: 100%;*/
+  /* display: inline-block; */
+  max-height: 100%;
 }
 
 @media (min-width: 1024px) {

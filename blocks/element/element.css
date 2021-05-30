@@ -4,6 +4,9 @@
   border-radius: 10px;
   overflow: hidden;
   background: #FFFFFF;
+  /*height: 0;
+  padding-bottom: calc(100% + 80px);*/
+  position: relative;
 }
 
 
