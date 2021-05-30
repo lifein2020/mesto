@@ -25,52 +25,7 @@
         <button class="profile__add-button" type="button"></button>
       </nav>
       <section class="elements">
-        <article class="element">
-          <div class="element__image" style="background-image: url(https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg);">
-          </div>
-          <!--<img class="element__image" src="images/karachaevsk.jpg" alt="Карачаевск">-->
-          <button class="element__trash" type="button"></button>
-          <div class="element__text">
-            <h2 class="element__title">Карачаевск</h2>
-            <button class="element__like" type="button"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="images/gora_elbrus.jpg" alt="Гора Эльбрус">
-          <button class="element__trash" type="button"></button>
-          <div class="element__text">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="images/dombay.jpg" alt="Домбай">
-          <div class="element__text">
-            <h2 class="element__title">Домбай</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="images/gora_elbrus.jpg" alt="Гора Эльбрус">
-          <div class="element__text">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="images/dombay.jpg" alt="Домбай">
-          <div class="element__text">
-            <h2 class="element__title">Домбай</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </article>
-        <article class="element">
-          <img class="element__image" src="images/karachaevsk.jpg" alt="Карачаевск">
-          <div class="element__text">
-            <h2 class="element__title">Карачаево-Черкессия</h2>
-            <button type="button" class="element__like"></button>
-          </div>
-        </article>
+
       </section>
     </main>
     <footer class="footer">
@@ -83,7 +38,7 @@
     <div class="popup__container">
       <button type="button" class="popup__close popup__close_edit"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="form" class="popup__form popup__form_edit" action="#" autocomplete="on">
+      <form name="formEdit" class="popup__form popup__form_edit" action="#" autocomplete="on">
           <input type="text" class="popup__input popup__input_user_name"  name="name" value=""> <!--модификатор не для стилей, а для js (можно id, но это не по БЭМ)-->
           <input type="text" class="popup__input popup__input_user_job " name="job" value="">
           <button type="submit" class="popup__save">Сохранить</button>
@@ -95,7 +50,7 @@
     <div class="popup__container">
       <button type="button" class="popup__close popup__close_add-card"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form name="form" class="popup__form popup__form_add" action="#" autocomplete="on">
+      <form name="formAdd" class="popup__form popup__form_add" action="#" autocomplete="on">
         <input type="text" class="popup__input popup__input_card_name"  name="card-name" required placeholder="Название" value="">
         <input type="text" class="popup__input popup__input_card_image-link" name="card-image-link" required placeholder="Ссылка на картинку" value="">
         <button type="submit" class="popup__save">Сохранить</button>
