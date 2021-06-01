@@ -1,17 +1,16 @@
-const popup = document.querySelector('.popup');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupAdd = document.querySelector('.popup_type_add-card');
 const popupShowImage = document.querySelector('.popup_type_image'); // Найти в DOM попап с картинкой
 
-const ButtonOpenPopupEdit = document.querySelector('.profile-info__edit-button');
-const ButtonClosePopupEdit = popupEdit.querySelector('.popup__close_edit');
-const ButtonOpenPopupAdd = document.querySelector('.profile__add-button');
-const ButtonClosePopupAdd = popupAdd.querySelector('.popup__close_add-card');
-const ButtonClosePopupImage = popupShowImage.querySelector('.popup__close_image');
+const buttonOpenPopupEdit = document.querySelector('.profile-info__edit-button');
+const buttonClosePopupEdit = popupEdit.querySelector('.popup__close_edit');
+const buttonOpenPopupAdd = document.querySelector('.profile__add-button');
+const buttonClosePopupAdd = popupAdd.querySelector('.popup__close_add-card');
+const buttonClosePopupImage = popupShowImage.querySelector('.popup__close_image');
 
 // Для профиля
 // Находим форму в DOM
-let formEditElement = popupEdit.querySelector('.popup__form_edit'); /*либо не document, а popupElement - если попапов несколько https://learn.javascript.ru/form-elements*/
+const formEditElement = popupEdit.querySelector('.popup__form_edit'); /*либо не document, а popupElement - если попапов несколько https://learn.javascript.ru/form-elements*/
 // Находим поля формы в DOM
 let formEditInputName = formEditElement.querySelector('.popup__input_user_name');
 let formEditInputJob = formEditElement.querySelector('.popup__input_user_job');
@@ -70,21 +69,23 @@ const itemData = {
 function createCard(itemData) {  //...Здесь код, создающий карточку
   //создать карточку
   const newElement = elementTemplate.content.querySelector('.element').cloneNode(true);
-  newElement.querySelector('.element__image').src = itemData.link;
-  newElement.querySelector('.element__image').alt = itemData.name;
-  newElement.querySelector('.element__title').textContent = itemData.name;
+  const newElementImage = newElement.querySelector('.element__image');
+  const newElementTitle = newElement.querySelector('.element__title');
+  newElementImage.src = itemData.link;
+  newElementImage.alt = itemData.name;
+  newElementTitle.textContent = itemData.name;
+  //newElement.querySelector('.element__title').textContent = itemData.name;
   //ставить, снимать лайк
   const elementLike = newElement.querySelector('.element__like');
   elementLike.addEventListener('click', function (evt) {
     evt.target.classList.toggle('element__like_active');
   });
  //показать попап с картинкой
-  const newElementImage = newElement.querySelector('.element__image');
-  const newElementTitle = newElement.querySelector('.element__title');
+  //const newElementTitle = newElement.querySelector('.element__title');
   newElementImage.addEventListener('click', function (itemData) {  //...Слушатель кликов по картинке:
     popupImage.src = newElementImage.src;     // Заменить src у img в попапе на src img в карточке
     popupImage.alt = newElementImage.alt;     // Заменить alt у img в попапе на alt img в карточке
-    popupTitle.textcontent = newElementTitle; // Заменить текст у подписи в попапе на текст заголовка в карточке
+    popupTitle.textContent = newElementTitle; // Заменить текст у подписи в попапе на текст заголовка в карточке
     togglePopup(popupShowImage);              // Сделать попап с картинкой видимым
   });
   //удалить карточку
@@ -111,7 +112,7 @@ function togglePopup(popup) {
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
-function formEditSubmitHandler (evt) {
+function handleEditFormSubmit (evt) {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
                                                 // Так мы можем определить свою логику отправки.
                                                 // О том, как это делать, расскажем позже.
@@ -124,7 +125,7 @@ function formEditSubmitHandler (evt) {
     togglePopup(popupEdit);
 }
 
-function formAddSubmitHandler (evt) {
+function handleAddFormSubmit (evt) {
   evt.preventDefault();
   // 1-й способ:
   itemData.name = formAddInputName.value;
@@ -137,21 +138,23 @@ function formAddSubmitHandler (evt) {
   card.querySelector('.element__title').textContent = formAddInputName.value;
   elements.prepend(card);*/
   togglePopup(popupAdd);
+  formAddElement.reset();
 }
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-formEditElement.addEventListener('submit', formEditSubmitHandler);
+formEditElement.addEventListener('submit', handleEditFormSubmit);
 //Мы должны вешать обработчик сабмита на тег формы. Повесила на <button type="submit" class="popup__save">
-formAddElement.addEventListener('submit', formAddSubmitHandler);
+formAddElement.addEventListener('submit', handleAddFormSubmit);
 
-ButtonOpenPopupEdit.addEventListener('click', () => togglePopup(popupEdit));
-ButtonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
 
-ButtonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
-ButtonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
+buttonOpenPopupEdit.addEventListener('click', () => togglePopup(popupEdit));
+buttonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
 
-ButtonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
+buttonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
+buttonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
+
+buttonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
 
 
 //ВАРИАНТ 2 вместо function togglePopup()

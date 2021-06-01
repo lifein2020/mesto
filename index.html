@@ -39,8 +39,8 @@
       <button type="button" class="popup__close popup__close_edit"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
       <form name="formEdit" class="popup__form popup__form_edit" action="#" autocomplete="on">
-          <input type="text" class="popup__input popup__input_user_name"  name="name" value=""> <!--модификатор не для стилей, а для js (можно id, но это не по БЭМ)-->
-          <input type="text" class="popup__input popup__input_user_job " name="job" value="">
+          <input type="text" class="popup__input popup__input_user_name"  name="name" required placeholder="Имя" value=""> <!--модификатор не для стилей, а для js (можно id, но это не по БЭМ)-->
+          <input type="text" class="popup__input popup__input_user_job " name="job" required placeholder="Род занятий" value="">
           <button type="submit" class="popup__save">Сохранить</button>
       </form>
     </div>
@@ -52,7 +52,7 @@
       <h2 class="popup__title">Новое место</h2>
       <form name="formAdd" class="popup__form popup__form_add" action="#" autocomplete="on">
         <input type="text" class="popup__input popup__input_card_name"  name="card-name" required placeholder="Название" value="">
-        <input type="text" class="popup__input popup__input_card_image-link" name="card-image-link" required placeholder="Ссылка на картинку" value="">
+        <input type="url" class="popup__input popup__input_card_image-link" name="card-image-link" required placeholder="Ссылка на картинку" value="">
         <button type="submit" class="popup__save">Сохранить</button>
       </form>
     </div>
@@ -77,6 +77,8 @@
     </article>
   </template>
 
+  <script src="scripts/initial-cards.js"></script>
   <script src="scripts/script.js"></script>
+
 </body>
 </html>
