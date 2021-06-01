@@ -85,7 +85,7 @@ function createCard(itemData) {  //...Здесь код, создающий ка
   newElementImage.addEventListener('click', function (itemData) {  //...Слушатель кликов по картинке:
     popupImage.src = newElementImage.src;     // Заменить src у img в попапе на src img в карточке
     popupImage.alt = newElementImage.alt;     // Заменить alt у img в попапе на alt img в карточке
-    popupTitle.textContent = newElementTitle; // Заменить текст у подписи в попапе на текст заголовка в карточке
+    popupTitle.textContent = newElementTitle.textContent; // Заменить текст у подписи в попапе на текст заголовка в карточке
     togglePopup(popupShowImage);              // Сделать попап с картинкой видимым
   });
   //удалить карточку
