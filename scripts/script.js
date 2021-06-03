@@ -9,19 +9,19 @@ const buttonClosePopupAdd = popupAdd.querySelector('.popup__close_add-card');
 const buttonClosePopupImage = popupShowImage.querySelector('.popup__close_image');
 
 // Для профиля
-// Находим форму в DOM
+// находим форму в DOM
 const formEditElement = popupEdit.querySelector('.popup__form_edit'); /*либо не document, а popupElement - если попапов несколько https://learn.javascript.ru/form-elements*/
-// Находим поля формы в DOM
-let formEditInputName = formEditElement.querySelector('.popup__input_user_name');
-let formEditInputJob = formEditElement.querySelector('.popup__input_user_job');
-//Находим элементы, куда должны быть вставлены значения полей
-let profileName = document.querySelector('.profile-info__name');
-let profileJob = document.querySelector('.profile-info__activity');
+// находим поля формы в DOM
+const formEditInputName = formEditElement.querySelector('.popup__input_user_name');
+const formEditInputJob = formEditElement.querySelector('.popup__input_user_job');
+//находим элементы, куда должны быть вставлены значения полей
+const profileName = document.querySelector('.profile-info__name');
+const profileJob = document.querySelector('.profile-info__activity');
 
 //Для +
 const formAddElement = popupAdd.querySelector('.popup__form_add');
-let formAddInputName = formAddElement.querySelector('.popup__input_card_name');
-let formAddInputLink = formAddElement.querySelector('.popup__input_card_image-link');
+const formAddInputName = formAddElement.querySelector('.popup__input_card_name');
+const formAddInputLink = formAddElement.querySelector('.popup__input_card_image-link');
 
 //Для попапа с картинкой
 const popupImage = popupShowImage.querySelector('.popup__image'); // Найти в попапе класс для картинки img
@@ -31,7 +31,7 @@ const popupTitle = popupShowImage.querySelector('.popup__title-image'); // На�
 const elementTemplate = document.querySelector('#element-template');
 const elements = document.querySelector('.elements');
 
-const initialCards = [
+/*const initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -56,7 +56,7 @@ const initialCards = [
     name: 'Байкал',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
-];
+];*/
 
 const cardItemName = formAddInputName.value;
 const cardItemLink = formAddInputLink.value;
@@ -74,15 +74,13 @@ function createCard(itemData) {  //...Здесь код, создающий ка
   newElementImage.src = itemData.link;
   newElementImage.alt = itemData.name;
   newElementTitle.textContent = itemData.name;
-  //newElement.querySelector('.element__title').textContent = itemData.name;
   //ставить, снимать лайк
   const elementLike = newElement.querySelector('.element__like');
   elementLike.addEventListener('click', function (evt) {
     evt.target.classList.toggle('element__like_active');
   });
  //показать попап с картинкой
-  //const newElementTitle = newElement.querySelector('.element__title');
-  newElementImage.addEventListener('click', function (itemData) {  //...Слушатель кликов по картинке:
+  newElementImage.addEventListener('click', function () {  //...Слушатель кликов по картинке:
     popupImage.src = newElementImage.src;     // Заменить src у img в попапе на src img в карточке
     popupImage.alt = newElementImage.alt;     // Заменить alt у img в попапе на alt img в карточке
     popupTitle.textContent = newElementTitle.textContent; // Заменить текст у подписи в попапе на текст заголовка в карточке
@@ -105,9 +103,14 @@ initialCards.forEach(function(currentItem) {
 
 // открытие/закрытие любого попапа
 function togglePopup(popup) {
+  popup.classList.toggle('popup_is-opened');
+}
+
+//функция открытия попапа редактирования профиля
+function openPopupEdit() {
   formEditInputName.value = profileName.textContent;
   formEditInputJob.value = profileJob.textContent;
-  popup.classList.toggle('popup_is-opened');
+  togglePopup(popupEdit);
 }
 
 // Обработчик «отправки» формы, хотя пока
@@ -127,10 +130,15 @@ function handleEditFormSubmit (evt) {
 
 function handleAddFormSubmit (evt) {
   evt.preventDefault();
+  // 1-й способ рациональный:
+  elements.prepend(createCard({
+    name: formAddInputName.value,
+    link: formAddInputLink.value,
+  }));
   // 1-й способ:
-  itemData.name = formAddInputName.value;
+/*itemData.name = formAddInputName.value;
   itemData.link = formAddInputLink.value;
-  elements.prepend(createCard(itemData));
+  elements.prepend(createCard(itemData));*/
   // 2-й способ:
   /*const card = createCard(itemData);
   card.querySelector('.element__image').src = formAddInputLink.value;
@@ -138,7 +146,7 @@ function handleAddFormSubmit (evt) {
   card.querySelector('.element__title').textContent = formAddInputName.value;
   elements.prepend(card);*/
   togglePopup(popupAdd);
-  formAddElement.reset();
+  formAddElement.reset(); //сброс значений инпутов
 }
 
 // Прикрепляем обработчик к форме:
@@ -148,7 +156,7 @@ formEditElement.addEventListener('submit', handleEditFormSubmit);
 formAddElement.addEventListener('submit', handleAddFormSubmit);
 
 
-buttonOpenPopupEdit.addEventListener('click', () => togglePopup(popupEdit));
+buttonOpenPopupEdit.addEventListener('click', openPopupEdit);
 buttonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
 
 buttonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
