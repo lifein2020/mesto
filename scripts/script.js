@@ -103,7 +103,7 @@ function handleDeliteCard(evt) {
 }*/
 
 //функция закрытия по клавише esc:
-function keyHandlerPopup(event) {
+function handleKeydownPopup(event) {
   const key = event.key;
   if(key === 'Escape') {
     const popupOpened = document.querySelector('.popup_is-opened');
@@ -114,19 +114,20 @@ function keyHandlerPopup(event) {
 
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
-  document.addEventListener('keydown', keyHandlerPopup)
+  document.addEventListener('keydown', handleKeydownPopup);
 }
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
-  document.removeEventListener('keydown', keyHandlerPopup)
+  document.removeEventListener('keydown', handleKeydownPopup);
 }
 
 //функция открытия попапа редактирования профиля
-function openPopupEdit() {
+function openPopupEdit(popupEdit, input, config, form) {
   formEditInputName.value = profileName.textContent;
   formEditInputJob.value = profileJob.textContent;
   //togglePopup(popupEdit);
   openPopup(popupEdit);
+  hideError(input, config, form);
 };
 
 // Обработчик «отправки» формы, хотя пока
@@ -170,7 +171,7 @@ function handleAddFormSubmit (evt) {
 
   formAddElement.reset(); //сброс значений инпутов
   const form = evt.currentTarget;
-  setSubmitButtonInactiveState(form, config); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
+  setSubmitButtonInactiveState(form, config); //чтобы после введении валидных данных форма заново открывалась с неактивной кнопкой
 }
 
 // Прикрепляем обработчик к форме:
@@ -190,7 +191,7 @@ buttonOpenPopupAdd.addEventListener('click', () => openPopup(popupAdd));
 buttonClosePopupAdd.addEventListener('click', () => closePopup(popupAdd));
 
 //buttonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
-buttonClosePopupImage.addEventListener('click', () => closePopoup(popupShowImage));
+buttonClosePopupImage.addEventListener('click', () => closePopup(popupShowImage));
 
 function closePopupOverlay(evt) {
   if (evt.target.classList.contains('popup')) {
@@ -199,8 +200,8 @@ function closePopupOverlay(evt) {
     };
 }
 
-popupEdit.addEventListener('click', closePopupOverlay);
-popupAdd.addEventListener('click', closePopupOverlay);
-popupShowImage.addEventListener('click', closePopupOverlay);
+popupEdit.addEventListener('mousedown', closePopupOverlay);
+popupAdd.addEventListener('mousedown', closePopupOverlay);
+popupShowImage.addEventListener('mousedown', closePopupOverlay);
 
 

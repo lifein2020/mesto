@@ -5,7 +5,7 @@
   min-height: 50px;
   border-radius: 2px;
   border: 1px solid #000000;
-  cursor: pointer;
+  /*cursor: pointer; не должноо быть*/
   background: #FFFFFF;
   font-family: Inter;
   font-style: normal;
