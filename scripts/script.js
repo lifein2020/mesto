@@ -32,7 +32,7 @@ const elementTemplate = document.querySelector('#element-template');
 const elements = document.querySelector('.elements');
 
 //Для создания карточки
-// вызываются всего раз при первой компиляции
+/* вызываются всего раз при первой компиляции*/
 const cardItemName = formAddInputName.value;
 const cardItemLink = formAddInputLink.value;
 // здесь создается объект, который будет передаваться в createCard. Он содержит два свойства: name и link. Их заполняют значениями из переменных, которые определены выше.
