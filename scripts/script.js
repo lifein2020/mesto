@@ -32,6 +32,7 @@ const elementTemplate = document.querySelector('#element-template');
 const elements = document.querySelector('.elements');
 
 //Для создания карточки
+// вызываются всего раз при первой компиляции
 const cardItemName = formAddInputName.value;
 const cardItemLink = formAddInputLink.value;
 // здесь создается объект, который будет передаваться в createCard. Он содержит два свойства: name и link. Их заполняют значениями из переменных, которые определены выше.
@@ -123,6 +124,7 @@ function handleEditFormSubmit (evt) {
 
 function handleAddFormSubmit (evt) {
   evt.preventDefault();
+  //Здесь каждый раз при вызове функции добавления новой карточки считываются данные из полей формы, т.е. в соответствующие поля созданной карточки вставляются значения из инпутов.
   // 1-й способ рациональный:
   elements.prepend(createCard({
     name: formAddInputName.value,
