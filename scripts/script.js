@@ -98,6 +98,7 @@ function handleDeliteCard(evt) {
 // открытие/закрытие любого попапа
 function togglePopup(popup) {
   popup.classList.toggle('popup_is-opened');
+
 }
 
 //функция открытия попапа редактирования профиля
@@ -114,17 +115,19 @@ function handleEditFormSubmit (evt) {
                                                 // Так мы можем определить свою логику отправки.
                                                 // О том, как это делать, расскажем позже.
 
-                                                // Получите значение полей jobInput и nameInput из свойства value
+                                                  // Получите значение полей jobInput и nameInput из свойства value
                                                 // Выберите элементы, куда должны быть вставлены значения полей
     profileName.textContent = formEditInputName.value; // Вставьте новые значения с помощью textContent
     profileJob.textContent = formEditInputJob.value;
 
     togglePopup(popupEdit);
+
 }
 
 function handleAddFormSubmit (evt) {
   evt.preventDefault();
-  //Здесь каждый раз при вызове функции добавления новой карточки считываются данные из полей формы, т.е. в соответствующие поля созданной карточки вставляются значения из инпутов.
+
+    //Здесь каждый раз при вызове функции добавления новой карточки считываются данные из полей формы, т.е. в соответствующие поля созданной карточки вставляются значения из инпутов.
   // 1-й способ рациональный:
   elements.prepend(createCard({
     name: formAddInputName.value,
@@ -142,6 +145,8 @@ function handleAddFormSubmit (evt) {
   elements.prepend(card);*/
   togglePopup(popupAdd);
   formAddElement.reset(); //сброс значений инпутов
+  const form = evt.currentTarget;
+  setSubmitButtonInactiveState(form); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
 }
 
 // Прикрепляем обработчик к форме:
