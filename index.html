@@ -38,10 +38,12 @@
     <div class="popup__container">
       <button type="button" class="popup__close popup__close_edit"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="formEdit" class="popup__form popup__form_edit" action="#" autocomplete="on">
-          <input type="text" class="popup__input popup__input_user_name"  name="name" required placeholder="Имя" value=""> <!--модификатор не для стилей, а для js (можно id, но это не по БЭМ)-->
-          <input type="text" class="popup__input popup__input_user_job " name="job" required placeholder="Род занятий" value="">
-          <button type="submit" class="popup__save">Сохранить</button>
+      <form name="formEdit" class="popup__form popup__form_edit" action="#" autocomplete="on" novalidate>
+          <input type="text" class="popup__input popup__input_user_name" id="name-input" name="name" required placeholder="Имя" value="" minlength="2" maxlength="40"> <!--модификатор не для стилей, а для js (можно id, но это не по БЭМ)-->
+          <span class="popup__input-error name-input-error"></span> <!--class="popup__input-error" id="name-input-error">-->
+          <input type="text" class="popup__input popup__input_user_job" id="job-input" name="job" required placeholder="Род занятий" value="" minlength="2" maxlength="200">
+          <span class="popup__input-error job-input-error"></span> <!--class="popup__input-error" id="job-input-error"-->
+          <button type="submit" disabled class="popup__save popup__button">Сохранить</button>
       </form>
     </div>
   </div>
@@ -50,10 +52,12 @@
     <div class="popup__container">
       <button type="button" class="popup__close popup__close_add-card"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form name="formAdd" class="popup__form popup__form_add" action="#" autocomplete="on">
-        <input type="text" class="popup__input popup__input_card_name"  name="card-name" required placeholder="Название" value="">
-        <input type="url" class="popup__input popup__input_card_image-link" name="card-image-link" required placeholder="Ссылка на картинку" value="">
-        <button type="submit" class="popup__save">Сохранить</button>
+      <form name="formAdd" class="popup__form popup__form_add" action="#" autocomplete="on" novalidate>
+        <input type="text" class="popup__input popup__input_card_name"  id="card-name-input" name="card-name" required placeholder="Название" value="" minlength="2" maxlength="30">
+        <span class="popup__input-error card-name-input-error"></span> <!--id="card-name-input-error">-->
+        <input type="url" class="popup__input popup__input_card_image-link" id="card-image-link-input" name="card-image-link" required placeholder="Ссылка на картинку" value="">
+        <span class="popup__input-error card-image-link-input-error"></span> <!--id="card-image-link-input-error"-->
+        <button type="submit" disabled class="popup__button popup__button_disabled">Создать</button>
       </form>
     </div>
   </div>
@@ -78,6 +82,7 @@
   </template>
 
   <script src="scripts/initial-cards.js"></script>
+  <script src="scripts/validate.js"></script>
   <script src="scripts/script.js"></script>
 
 </body>
