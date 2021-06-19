@@ -31,9 +31,6 @@ const popupTitle = popupShowImage.querySelector('.popup__title-image'); // На�
 const elementTemplate = document.querySelector('#element-template');
 const elements = document.querySelector('.elements');
 
-//Оверлей для попапов
-const overlay = document.querySelector('.popup');
-
 //Для создания карточки
 /* вызываются всего раз при первой компиляции*/
 const cardItemName = formAddInputName.value;
@@ -149,7 +146,7 @@ function handleAddFormSubmit (evt) {
   togglePopup(popupAdd);
   formAddElement.reset(); //сброс значений инпутов
   const form = evt.currentTarget;
-  setSubmitButtonInactiveState(form); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
+  setSubmitButtonInactiveState(form, config); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
 }
 
 // Прикрепляем обработчик к форме:
@@ -166,8 +163,6 @@ buttonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
 buttonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
 
 buttonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
-
-//overlay.addEventListener('click', () => togglePopup(popupEdit, popupAdd, popupShowImage));
 
 //ВАРИАНТ 2 вместо function togglePopup()
 
