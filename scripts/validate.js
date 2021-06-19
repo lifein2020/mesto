@@ -114,4 +114,4 @@ function setSubmitButtonInactiveState(form, config) {
 }
 
 enableValidation(config);
-//configs.forEach(config => enableValidation(config));
+
