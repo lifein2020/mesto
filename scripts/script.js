@@ -31,6 +31,9 @@ const popupTitle = popupShowImage.querySelector('.popup__title-image'); // На�
 const elementTemplate = document.querySelector('#element-template');
 const elements = document.querySelector('.elements');
 
+//Оверлей для попапов
+const overlay = document.querySelector('.popup');
+
 //Для создания карточки
 /* вызываются всего раз при первой компиляции*/
 const cardItemName = formAddInputName.value;
@@ -164,6 +167,7 @@ buttonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
 
 buttonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
 
+//overlay.addEventListener('click', () => togglePopup(popupEdit, popupAdd, popupShowImage));
 
 //ВАРИАНТ 2 вместо function togglePopup()
 
