@@ -19,37 +19,11 @@ function enableValidation(config) {
   })
 }
 
-/*function enableValidation(config) {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
-
-  formList.forEach(formElement => {
-    formElement.addEventListener('submit', preventDefaultFormSubmit);
-    setFormListeners(formElement, config);
-  }
-  )}
-
-function preventDefaultFormSubmit(event) {
-  event.preventDefault();
-}
-
-function setFormListeners(form, config) {
-  form.addEventListener('submit', handleFormSubmit);
-  form.addEventListener('input', (event) => handleFormInput(event, config));
-}*/
-
-
 function handleFormSubmit(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
   const isValid = form.checkValidity();
-
-  /*if (isValid) {
-    alert('Форма валидна');
-    //form.reset(); //для добавления карточки
-  } else {
-    alert('Форма невалидна');
-  }*/
 }
 
 function handleFormInput(event, config) {
