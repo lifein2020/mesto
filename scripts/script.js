@@ -114,11 +114,11 @@ function keyHandlerPopup(event) {
 
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
-  popup.addEventListener('keydown', keyHandlerPopup)
+  document.addEventListener('keydown', keyHandlerPopup)
 }
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
-  popup.removeEventListener('keydown', keyHandlerPopup)
+  document.removeEventListener('keydown', keyHandlerPopup)
 }
 
 //функция открытия попапа редактирования профиля
