@@ -88,7 +88,8 @@ function handleShowPopupImageSubmit(evt) {
   popupImage.alt = evt.target.getAttribute('alt');
   cardElement = evt.target.closest('.element');
   popupTitle.textContent = cardElement.querySelector('.element__title').textContent;
-  togglePopup(popupShowImage);
+  //togglePopup(popupShowImage);
+  openPopup(popupShowImage);
 }
 
 function handleDeliteCard(evt) {
@@ -96,17 +97,37 @@ function handleDeliteCard(evt) {
 };
 
 // открытие/закрытие любого попапа
-function togglePopup(popup) {
-  popup.classList.toggle('popup_is-opened');
 
+/*function togglePopup(popup) {
+  popup.classList.toggle('popup_is-opened');
+}*/
+
+//функция закрытия по клавише esc:
+function keyHandlerPopup(event) {
+  const key = event.key;
+  if(key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_is-opened');
+    closePopup(popupOpened);
+    }
+  }
+
+
+function openPopup(popup) {
+  popup.classList.add('popup_is-opened');
+  popup.addEventListener('keydown', keyHandlerPopup)
+}
+function closePopup(popup) {
+  popup.classList.remove('popup_is-opened');
+  popup.removeEventListener('keydown', keyHandlerPopup)
 }
 
 //функция открытия попапа редактирования профиля
 function openPopupEdit() {
   formEditInputName.value = profileName.textContent;
   formEditInputJob.value = profileJob.textContent;
-  togglePopup(popupEdit);
-}
+  //togglePopup(popupEdit);
+  openPopup(popupEdit);
+};
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -120,7 +141,8 @@ function handleEditFormSubmit (evt) {
     profileName.textContent = formEditInputName.value; // Вставьте новые значения с помощью textContent
     profileJob.textContent = formEditInputJob.value;
 
-    togglePopup(popupEdit);
+    //togglePopup(popupEdit);
+    closePopup(popupEdit);
 
 }
 
@@ -143,7 +165,9 @@ function handleAddFormSubmit (evt) {
   card.querySelector('.element__image').alt = formAddInputName.value;
   card.querySelector('.element__title').textContent = formAddInputName.value;
   elements.prepend(card);*/
-  togglePopup(popupAdd);
+  //togglePopup(popupAdd);
+  closePopup(popupAdd);
+
   formAddElement.reset(); //сброс значений инпутов
   const form = evt.currentTarget;
   setSubmitButtonInactiveState(form, config); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
@@ -157,31 +181,26 @@ formAddElement.addEventListener('submit', handleAddFormSubmit);
 
 
 buttonOpenPopupEdit.addEventListener('click', openPopupEdit);
-buttonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
+//buttonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
+buttonClosePopupEdit.addEventListener('click', () => closePopup(popupEdit));
 
-buttonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
-buttonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
+//buttonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
+buttonOpenPopupAdd.addEventListener('click', () => openPopup(popupAdd));
+//buttonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
+buttonClosePopupAdd.addEventListener('click', () => closePopup(popupAdd));
 
-buttonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
+//buttonClosePopupImage.addEventListener('click', () => togglePopup(popupShowImage));
+buttonClosePopupImage.addEventListener('click', () => closePopoup(popupShowImage));
 
-//ВАРИАНТ 2 вместо function togglePopup()
-
-/*function openPopup() {
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  popup.classList.add('popup_is_opened');
+function closePopupOverlay(evt) {
+  if (evt.target.classList.contains('popup')) {
+      //togglePopup(evt.target);
+      closePopup(evt.target);
+    };
 }
-function closePopup() {
-  popup.classList.remove('popup_is_opened');
-}
 
-function formSubmitHandler (evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  closePopup(evt);
-}
-popupOpenButton.addEventListener('click', openPopup);
-popupCloseButton.addEventListener('click', closePopup);
-formElement.addEventListener('submit', formSubmitHandler);
-} */
+popupEdit.addEventListener('click', closePopupOverlay);
+popupAdd.addEventListener('click', closePopupOverlay);
+popupShowImage.addEventListener('click', closePopupOverlay);
+
+
