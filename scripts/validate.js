@@ -34,11 +34,9 @@ function handleFormInput(event, config) {
   //Шаг 1. Найдем невалидные поля и установаим тексты ошибок
   setCustomError(input, config);
   // Шаг 2. Показываем тексты ошибок
-  //showError(input, config, form);
-  checkInputValidity(input, config, form);
+  showError(input, config, form);
   //Шаг3. Активируем или деактивируем кнопку
   toggleSubmitButtonState(form, config);
-  //hideError(input, config, form);
 }
 
 //ошибки вводим, но не показываем пока
@@ -47,6 +45,7 @@ function setCustomError(input, config) {
 
 //обнулим ошибку на каждом шаге перед проверками, вдруг пользователь ввел правильно
   input.setCustomValidity("");
+
   //для инпута type="text"
   if (validity.tooShort || validity.tooLong) {
     const currentLength = input.value.length; // находим длину введенной строки
@@ -72,27 +71,8 @@ function showError(input, config, form) {
   const span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
   span.textContent = input.validationMessage; // это сообщение, которое установится в setCustomValidity
   span.classList.add(config.errorClass);
-  span.classList.remove(config.errorClassUnvisible);//span.classList.remove(config.inputErrorClass);
-  input.classList.add(config.inputErrorClass);//input.classList.add(config.redUnderline);
-}
-
-function hideError(input, config, form) {
-  const span = form.querySelector(`.${input.id}-error`);
-  span.textContent = "";
-  span.classList.remove(config.errorClass);
-  span.classList.add(config.errorClassUnvisible);
-  input.classList.remove(config.inputErrorClass);
-}
-
-function checkInputValidity(input, config, form) {
-  const validity = input.validity;
-
-  if (!validity.valid) {
-    showError(input, config, form)
-  }
-  else {
-    hideError(input, config, form)
-  }
+  span.classList.remove(config.errorClassUnvisible);
+  input.classList.add(config.inputErrorClass);
 }
 
 function toggleSubmitButtonState(form, config) {

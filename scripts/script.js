@@ -111,23 +111,22 @@ function handleKeydownPopup(event) {
     }
   }
 
-
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleKeydownPopup);
 }
+
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', handleKeydownPopup);
 }
 
 //функция открытия попапа редактирования профиля
-function openPopupEdit(popupEdit, input, config, form) {
+function openPopupEdit() {
   formEditInputName.value = profileName.textContent;
   formEditInputJob.value = profileJob.textContent;
   //togglePopup(popupEdit);
   openPopup(popupEdit);
-  hideError(input, config, form);
 };
 
 // Обработчик «отправки» формы, хотя пока
