@@ -66,7 +66,7 @@ function setCustomError(input, config) {
   }
 }
 
-//показываем ошибку
+//показываем ошибку ниже
 function showError(input, config, form) {
   //получаем спан и присваиваем ему значение этой ошибки
   const span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
