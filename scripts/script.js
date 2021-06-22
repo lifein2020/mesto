@@ -97,7 +97,6 @@ function handleDeliteCard(evt) {
 };
 
 // открытие/закрытие любого попапа
-
 /*function togglePopup(popup) {
   popup.classList.toggle('popup_is-opened');
 }*/
@@ -111,14 +110,17 @@ function handleKeydownPopup(event) {
     }
   }
 
+//универсальная функция открытия любого попапа
 function openPopup(popup) {
   popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleKeydownPopup);
 }
 
+//универсальная функция закрытия любого попапа
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', handleKeydownPopup);
+  //formAddElement.reset(); //сброс того что ввели в инпуты. Чтобы после закрытия попапа без сохранения, при повторном открытии инпуты были пустыми
 }
 
 //функция открытия попапа редактирования профиля
@@ -127,7 +129,15 @@ function openPopupEdit() {
   formEditInputJob.value = profileJob.textContent;
   //togglePopup(popupEdit);
   openPopup(popupEdit);
+  hideInputError(formEditElement, config);
 };
+
+//функция открытия попапа добавления карточки на стр
+function openPopupAdd() {
+  openPopup(popupAdd);
+  hideInputError(formAddElement, config);
+  formAddElement.reset(); //сброс того что ввели в инпуты. Чтобы после закрытия попапа без сохранения, при повторном открытии инпуты были пустыми
+}
 
 // Обработчик «отправки» формы, хотя пока
 // она никуда отправляться не будет
@@ -142,6 +152,7 @@ function handleEditFormSubmit (evt) {
     profileJob.textContent = formEditInputJob.value;
 
     //togglePopup(popupEdit);
+    formAddElement.reset();
     closePopup(popupEdit);
 
 }
@@ -179,13 +190,15 @@ formEditElement.addEventListener('submit', handleEditFormSubmit);
 //Мы должны вешать обработчик сабмита на тег формы. Повесила на <button type="submit" class="popup__save">
 formAddElement.addEventListener('submit', handleAddFormSubmit);
 
+buttonOpenPopupEdit.addEventListener('click', () => openPopupEdit(popupEdit, config));
 
-buttonOpenPopupEdit.addEventListener('click', openPopupEdit);
 //buttonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
 buttonClosePopupEdit.addEventListener('click', () => closePopup(popupEdit));
 
 //buttonOpenPopupAdd.addEventListener('click', () => togglePopup(popupAdd));
-buttonOpenPopupAdd.addEventListener('click', () => openPopup(popupAdd));
+//buttonOpenPopupAdd.addEventListener('click', () => openPopup(popupAdd)); // если не добавлять функции прятания ошибок и сброса формы
+buttonOpenPopupAdd.addEventListener('click', (evt) => openPopupAdd(popupAdd, config));
+
 //buttonClosePopupAdd.addEventListener('click', () => togglePopup(popupAdd));
 buttonClosePopupAdd.addEventListener('click', () => closePopup(popupAdd));
 

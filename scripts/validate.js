@@ -34,7 +34,9 @@ function handleFormInput(event, config) {
   //Шаг 1. Найдем невалидные поля и установаим тексты ошибок
   setCustomError(input, config);
   // Шаг 2. Показываем тексты ошибок
-  showError(input, config, form);
+  //showError(input, config, form);
+  //setEventListeners(form, config);
+  checkInputValidity(input, config, form)
   //Шаг3. Активируем или деактивируем кнопку
   toggleSubmitButtonState(form, config);
 }
@@ -65,14 +67,51 @@ function setCustomError(input, config) {
   }
 }
 
-//показываем ошибку ниже
+//показываем ошибку
 function showError(input, config, form) {
   //получаем спан и присваиваем ему значение этой ошибки
   const span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
   span.textContent = input.validationMessage; // это сообщение, которое установится в setCustomValidity
   span.classList.add(config.errorClass);
-  span.classList.remove(config.errorClassUnvisible);
-  input.classList.add(config.inputErrorClass);
+  span.classList.remove(config.errorClassUnvisible);//span.classList.remove(config.inputErrorClass);
+  input.classList.add(config.inputErrorClass);//input.classList.add(config.redUnderline);
+}
+
+//спрятать ошибку
+function hideError(input, config, form) {
+  const span = form.querySelector(`.${input.id}-error`);
+  span.textContent = "";
+  span.classList.remove(config.errorClass);
+  span.classList.add(config.errorClassUnvisible);
+  input.classList.remove(config.inputErrorClass);
+}
+
+function checkInputValidity(input, config, form) {
+  const validity = input.validity;
+
+  if (!validity.valid) {
+    showError(input, config, form)
+  }
+  else {
+    hideError(input, config, form)
+  }
+}
+
+/*function setEventListeners(form, config) {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function() {
+      checkInputValidity(inputElement, config, form);
+  });
+});
+}*/
+
+//спрятать ошибку во всех инпутах
+function hideInputError(form, config) {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideError(inputElement, config, form);
+  });
 }
 
 function toggleSubmitButtonState(form, config) {
