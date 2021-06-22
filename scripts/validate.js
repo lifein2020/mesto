@@ -35,7 +35,8 @@ function handleFormInput(event, config) {
   setCustomError(input, config);
   // Шаг 2. Показываем тексты ошибок
   //showError(input, config, form);
-  checkInputValidity(input, config, form);
+  //setEventListeners(form, config);
+  checkInputValidity(input, config, form)
   //Шаг3. Активируем или деактивируем кнопку
   toggleSubmitButtonState(form, config);
   //hideError(input, config, form);
@@ -66,7 +67,7 @@ function setCustomError(input, config) {
   }
 }
 
-//показываем ошибку ниже
+//показываем ошибку
 function showError(input, config, form) {
   //получаем спан и присваиваем ему значение этой ошибки
   const span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
@@ -76,6 +77,7 @@ function showError(input, config, form) {
   input.classList.add(config.inputErrorClass);//input.classList.add(config.redUnderline);
 }
 
+//спрятать ошибку
 function hideError(input, config, form) {
   const span = form.querySelector(`.${input.id}-error`);
   span.textContent = "";
@@ -93,6 +95,23 @@ function checkInputValidity(input, config, form) {
   else {
     hideError(input, config, form)
   }
+}
+
+/*function setEventListeners(form, config) {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function() {
+      checkInputValidity(inputElement, config, form);
+  });
+});
+}*/
+
+//спрятать ошибку во всех инпутах
+function hideInputError(form, config) {
+  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
+  inputList.forEach((inputElement) => {
+    hideError(inputElement, config, form);
+  });
 }
 
 function toggleSubmitButtonState(form, config) {
