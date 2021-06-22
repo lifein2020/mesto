@@ -116,13 +116,14 @@ function openPopup(popup) {
   popup.classList.add('popup_is-opened');
   document.addEventListener('keydown', handleKeydownPopup);
 }
+
 function closePopup(popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', handleKeydownPopup);
 }
 
 //функция открытия попапа редактирования профиля
-function openPopupEdit(popupEdit, input, config, form) {
+function handleEventOpenPopupEdit(e) {
   formEditInputName.value = profileName.textContent;
   formEditInputJob.value = profileJob.textContent;
   //togglePopup(popupEdit);
@@ -180,8 +181,16 @@ formEditElement.addEventListener('submit', handleEditFormSubmit);
 //Мы должны вешать обработчик сабмита на тег формы. Повесила на <button type="submit" class="popup__save">
 formAddElement.addEventListener('submit', handleAddFormSubmit);
 
+/*(e) => {
+  const someVariable = getSomeVariable();
+  handleEvent(e, someVariable);*/
 
-buttonOpenPopupEdit.addEventListener('click', openPopupEdit);
+buttonOpenPopupEdit.addEventListener('click', (evt) => {
+  const openPopup =  openPopup(popupEdit);
+  const hideError = hideError(config, input, form);
+  handleEventOpenPopupEdit(evt, openPopup, hideError);
+});
+
 //buttonClosePopupEdit.addEventListener('click', () => togglePopup(popupEdit));
 buttonClosePopupEdit.addEventListener('click', () => closePopup(popupEdit));
 
