@@ -130,6 +130,7 @@ function openPopupEdit() {
   //togglePopup(popupEdit);
   openPopup(popupEdit);
   hideInputError(formEditElement, config);
+  setSubmitButtonActiveState(formEditElement, config); //для того,чтобы когда после удаления имени в профиле и деактивировации кнопки, закрывается попап и открывается снова, кнопка стала активированной
 };
 
 //функция открытия попапа добавления карточки на стр
@@ -137,6 +138,7 @@ function openPopupAdd() {
   openPopup(popupAdd);
   hideInputError(formAddElement, config);
   formAddElement.reset(); //сброс того что ввели в инпуты. Чтобы после закрытия попапа без сохранения, при повторном открытии инпуты были пустыми
+  setSubmitButtonInactiveState(formAddElement, config); // вводишь данные, кнопка активируется, закрываешь попап. Открываешь снова - кнопка деактивированна
 }
 
 // Обработчик «отправки» формы, хотя пока
@@ -154,7 +156,6 @@ function handleEditFormSubmit (evt) {
     //togglePopup(popupEdit);
     formAddElement.reset();
     closePopup(popupEdit);
-
 }
 
 function handleAddFormSubmit (evt) {
