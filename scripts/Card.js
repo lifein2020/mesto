@@ -1,4 +1,4 @@
-import {popupShowImage, buttonClosePopupImage, popupImage, popupTitle} from './index.js';
+import {popupShowImage, popupImage, popupTitle, openPopup} from './index.js';
 export default
 
 
@@ -47,14 +47,6 @@ class Card {
     this._newElementImage.addEventListener('click', () => {
       this._handleShowPopupImageSubmit();
     });
-
-    buttonClosePopupImage.addEventListener('click', () => {
-      this._closePopup(popupShowImage)
-    });
-
-    popupShowImage.addEventListener('click', () => {
-      this._closePopupOverlay()
-    });
   }
 
   _handleLikeCardSubmit() {
@@ -69,31 +61,7 @@ class Card {
     popupImage.src = this._newElementImage.getAttribute('src');
     popupImage.alt = this._newElementImage.getAttribute('alt');
     popupTitle.textContent = this._newElementTitle.textContent;
-    this._openPopup(popupShowImage);
+    openPopup(popupShowImage);
   }
-
-
-  _openPopup(popup) {
-    popup.classList.add('popup_is-opened');
-    document.addEventListener('keydown', this._keyHandlerPopup);
-  }
-
-  _closePopup(popup) {
-    popup.classList.remove('popup_is-opened');
-    document.removeEventListener('keydown', this._keyHandlerPopup);
-  }
-
-  _closePopupOverlay() {
-    if (popupShowImage.classList.contains('popup')) {
-      this._closePopup(popupShowImage);
-    };
-  }
-
-  _keyHandlerPopup(event) {
-    const key = event.key;
-    if(key === 'Escape') {
-      this._popupOpened = document.querySelector('.popup_is-opened');
-      this._closePopup(this._popupOpened);
-      }
-    }
 }
+
