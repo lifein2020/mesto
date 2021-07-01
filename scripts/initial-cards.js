@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -24,3 +24,11 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+/*Обычно экспорты по умолчанию используются для экспортов так называемых HoistableDeclaration, ClassDeclaration или AssignmentExpression.
+Чаще всего для переменных делают именованный импорт. По логике default это тоже декларация как и const. Они конечно отличаются, но являются декларацией. Экспорт рекомендуется делать после объявления.*/
+
+//export default initialCards
+
+
+
