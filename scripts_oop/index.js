@@ -30,10 +30,6 @@ const formAddElement = popupAdd.querySelector('.popup__form_add');
 const formAddInputName = formAddElement.querySelector('.popup__input_card_name');
 const formAddInputLink = formAddElement.querySelector('.popup__input_card_image-link');
 
-// Для вызова валидации форм
-const FormEditValidator = new FormValidator(config, '.popup__form_edit');
-const FormAddValidator = new FormValidator(config, '.popup__form_add');
-
 // Для попапа c картинкой
 const popupShowImage = document.querySelector('.popup_type_image');
 const buttonClosePopupImage = popupShowImage.querySelector('.popup__close_image');
@@ -43,6 +39,7 @@ const popupTitle = popupShowImage.querySelector('.popup__title-image');
 //Для template
 const elements = document.querySelector('.elements');
 
+// Для создания экземпляров классов
 const config = {
   //formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -53,6 +50,10 @@ const config = {
   errorClass: 'popup__error_visible',
   mismatchErrorMessage: 'Введите адрес сайта.'
 };
+
+// Для вызова валидации форм
+const FormEditValidator = new FormValidator(config, '.popup__form_edit');
+const FormAddValidator = new FormValidator(config, '.popup__form_add');
 
 //-------------Объявление функций-----------------
 
