@@ -22,12 +22,13 @@ class FormValidator {
     return specificForm;
   }
 
+  // Валидация форм
   enableValidation(config) {
     this._formElement = this._getForm();
     this._formElement.addEventListener('submit', this._handleFormSubmit);
     this._formElement.addEventListener('input', (event) => this._handleFormInput(event, config));
 
-    //this._setSubmitButtonInactiveState(this._formElement);
+    //this._setSubmitButtonInactiveState(this._formElement); /*нерабочая альтернатива FormAddValidators.setSubmitButtonInactiveState(formAddElement); в index.js */
   }
 
   _handleFormSubmit = (event) => {
@@ -81,6 +82,7 @@ _showError(input) {
   this._span.classList.remove(this._inputErrorClass);
 }
 
+// Переключение состояния кнопки в зависимости от валидности полей
 _toggleSubmitButtonState(form) {
   this._button = form.querySelector(this._submitButtonSelector);
   this._isValid = form.checkValidity();
