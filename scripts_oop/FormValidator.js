@@ -27,7 +27,7 @@ class FormValidator {
     this._formElement.addEventListener('submit', this._handleFormSubmit);
     this._formElement.addEventListener('input', (event) => this._handleFormInput(event, config));
 
-    this._setSubmitButtonInactiveState(this._getForm());
+    //this._setSubmitButtonInactiveState(this._formElement);
   }
 
   _handleFormSubmit = (event) => {
@@ -88,7 +88,7 @@ _toggleSubmitButtonState(form) {
   if (this._isValid) {
     this._setSubmitButtonActiveState(form);
   } else {
-    this._setSubmitButtonInactiveState(form);
+    this.setSubmitButtonInactiveState(form);
   }
 }
 
@@ -103,7 +103,7 @@ _setSubmitButtonActiveState(form) {
 }
 
 //деактивация кнопки submit
-_setSubmitButtonInactiveState(form) {
+setSubmitButtonInactiveState(form) {
   this._button = form.querySelector(this._submitButtonSelector);
   this._isValid = form.checkValidity();
 
