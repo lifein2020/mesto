@@ -102,7 +102,9 @@ elements.prepend(newCard);
 closePopup(popupAdd);
 formAddElement.reset(); //сброс значений инпутов
 //const form = evt.currentTarget;
-//card.setSubmitButtonInactiveState(form); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
+const FormAddValidators = new FormValidator(config, formAddElement);
+FormAddValidators.setSubmitButtonInactiveState(formAddElement); //чтобы после введени валидных данных форма заново открывалась с неактивной кнопкой
+
 }
 
 // Прикрепляем обработчик к форме:
