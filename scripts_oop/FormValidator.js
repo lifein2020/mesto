@@ -8,6 +8,7 @@ class FormValidator {
     this._activeButtonClass = config.activeButtonClass;
     this._inactiveButtonClass = config.inactiveButtonClass;
     this._inputErrorClass = config.inputErrorClass;
+    this._errorClassUnvisible = config.errorClassUnvisible;
     this._errorClass = config.errorClass;
     this._mismatchErrorMessage = config.mismatchErrorMessage;
     //DOM-объект формы
@@ -26,7 +27,7 @@ class FormValidator {
   enableValidation(config) {
     this._formElement = this._getForm();
     this._formElement.addEventListener('submit', this._handleFormSubmit);
-    this._formElement.addEventListener('input', (event) => this._handleFormInput(event, config));
+    this._formElement.addEventListener('input', (event) => this._handleFormInput(event));
 
     //this._setSubmitButtonInactiveState(this._formElement); /*нерабочая альтернатива FormAddValidators.setSubmitButtonInactiveState(formAddElement); в index.js */
   }
@@ -38,14 +39,15 @@ class FormValidator {
     this._isValid = this._form.checkValidity();
   }
 
-  _handleFormInput = (event, config) => {
+  _handleFormInput = (event) => {
     this._input = event.target; //элемент который отправил это событие, инпут инициализирует событие и в таргет попадает именно он
     this._form = event.currentTarget; //то на что повесили событие
 
     //Шаг 1. Найдем невалидные поля и установаим тексты ошибок
-    this._setCustomError(this._input, config);
-    // Шаг 2. Показываем тексты ошибок
-    this._showError(this._input);
+    this._setCustomError(this._input);
+    // Шаг 2. Показываем тексты ошибок, если поле не валидно
+    this._checkInputValidity(this._input, this._form);
+
     //Шаг3. Активируем или деактивируем кнопку
     this._toggleSubmitButtonState(this._form);
   }
@@ -74,12 +76,42 @@ _setCustomError(input) {
   }
 }
   //Показываем ошибку
-_showError(input) {
+_showError(input, form) {
   //получаем спан и присваиваем ему значение этой ошибки
-  this._span = document.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
+  this._span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
   this._span.textContent = input.validationMessage; // это сообщение, которое установится в setCustomValidity
   this._span.classList.add(this._errorClass);
-  this._span.classList.remove(this._inputErrorClass);
+  this._span.classList.remove(this._errorClassUnvisible);
+  input.classList.add(this._inputErrorClass);
+}
+
+// спрятать ошибку
+_hideError(input, form) {
+  this._span = form.querySelector(`.${input.id}-error`);
+  this._span.textContent = "";
+  this._span.classList.remove(this._errorClass);
+  this._span.classList.add(this._errorClassUnvisible);
+  input.classList.remove(this._inputErrorClass);
+}
+
+// проверка валидности полей формы
+_checkInputValidity(input, form) {
+  this._validity = input.validity;
+
+  if (!this._validity.valid) {
+    this._showError(input, form);
+  }
+  else {
+    this._hideError(input, form);
+  }
+}
+
+// спрятать ошибку во всех инпутах
+hideInputError(form) {
+  this._inputList = Array.from(form.querySelectorAll(this._inputSelector));
+  this._inputList.forEach((inputElement) => {
+    this._hideError(inputElement, form);
+  });
 }
 
 // Переключение состояния кнопки в зависимости от валидности полей
@@ -88,14 +120,14 @@ _toggleSubmitButtonState(form) {
   this._isValid = form.checkValidity();
 
   if (this._isValid) {
-    this._setSubmitButtonActiveState(form);
+    this.setSubmitButtonActiveState(form);
   } else {
     this.setSubmitButtonInactiveState(form);
   }
 }
 
-//активация кнопки submit
-_setSubmitButtonActiveState(form) {
+// активация кнопки submit
+setSubmitButtonActiveState(form) {
   this._button = form.querySelector(this._submitButtonSelector);
   this._isValid = form.checkValidity();
 
@@ -104,7 +136,7 @@ _setSubmitButtonActiveState(form) {
   this._button.removeAttribute('disabled');
 }
 
-//деактивация кнопки submit
+// деактивация кнопки submit
 setSubmitButtonInactiveState(form) {
   this._button = form.querySelector(this._submitButtonSelector);
   this._isValid = form.checkValidity();

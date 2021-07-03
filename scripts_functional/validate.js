@@ -39,6 +39,7 @@ function handleFormInput(event, config) {
   checkInputValidity(input, config, form)
   //Шаг3. Активируем или деактивируем кнопку
   toggleSubmitButtonState(form, config);
+  //hideError(input, config, form);
 }
 
 //ошибки вводим, но не показываем пока
