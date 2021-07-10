@@ -159,8 +159,8 @@ popupShowImage.addEventListener('mousedown', closePopupOverlay);
 
 // Использование классов
 
-FormEditValidator.enableValidation(config);
-FormAddValidator.enableValidation(config);
+FormEditValidator.enableValidation();
+FormAddValidator.enableValidation();
 
 initialCards.forEach(function(currentItem) {
   const card = new Card(currentItem, '#element-template', '.popup_is-opened');

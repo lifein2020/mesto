@@ -56,7 +56,7 @@ class Card {
     this._elementTrash.closest('.element').remove();
   }
 
-  _handleShowPopupImageSubmit(evt) {
+  _handleShowPopupImageSubmit() {
     popupImage.src = this._newElementImage.getAttribute('src');
     popupImage.alt = this._newElementImage.getAttribute('alt');
     popupTitle.textContent = this._newElementTitle.textContent;
