@@ -5,16 +5,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Место</title>
-  <link rel="stylesheet" href="pages/index.css">
+  <!--<link rel="stylesheet" href="pages/index.css"> webpack теперь их устанавливает автоматически-->
 </head>
 <body class="body">
   <div class="page">
     <header class="header">
-      <img class="header__logo" src="images/logo.png" alt="Логотип"> <!--https://learn.javascript.ru/space-under-img-->
+      <img class="header__logo" src="<%=require('./images/logo.png')%>" alt="Логотип"> <!--https://learn.javascript.ru/space-under-img-->
     </header>
     <main class="content">
       <nav class="profile">  <!--section-->
-        <img class="profile__avatar" src="images/kusto.jpg" alt="Жак-Ив Кусто">
+        <img class="profile__avatar" src="<%=require('./images/kusto.jpg')%>" alt="Жак-Ив Кусто">
         <div class="profile-info">
           <div class="profile-info__container">
             <h1 class="profile-info__name">Жак-Ив Кусто</h1>
