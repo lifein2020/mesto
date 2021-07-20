@@ -28,8 +28,6 @@ class FormValidator {
     this._formElement = this._getForm();
     this._formElement.addEventListener('submit', this._handleFormSubmit);
     this._formElement.addEventListener('input', (event) => this._handleFormInput(event));
-
-    //this._setSubmitButtonInactiveState(this._formElement); /*нерабочая альтернатива FormAddValidators.setSubmitButtonInactiveState(formAddElement); в index.js */
   }
 
   _handleFormSubmit = (event) => {

@@ -1,11 +1,9 @@
-import {popupShowImage, popupImage, popupTitle, openPopup} from './index.js';
-export default
-
-class Card {
-  constructor(data, cardSelector) {
+export default class Card {
+  constructor({ handleCardClick }, data, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -44,7 +42,8 @@ class Card {
     });
 
     this._newElementImage.addEventListener('click', () => {
-      this._handleShowPopupImageSubmit();
+      //this._handleCardClick(this.name, this.link);
+      this._handleCardClick();
     });
   }
 
@@ -56,11 +55,5 @@ class Card {
     this._elementTrash.closest('.element').remove();
   }
 
-  _handleShowPopupImageSubmit() {
-    popupImage.src = this._newElementImage.getAttribute('src');
-    popupImage.alt = this._newElementImage.getAttribute('alt');
-    popupTitle.textContent = this._newElementTitle.textContent;
-    openPopup(popupShowImage);
-  }
 }
 
