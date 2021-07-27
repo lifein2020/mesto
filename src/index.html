@@ -14,7 +14,12 @@
     </header>
     <main class="content">
       <nav class="profile">  <!--section-->
-        <img class="profile__avatar" src="<%=require('./images/kusto.jpg')%>" alt="Жак-Ив Кусто">
+        <div class="profile__container">
+          <img class="profile__avatar" src="<%=require('./images/kusto.jpg')%>" alt="Жак-Ив Кусто">
+          <div class="profile__overlay">
+            <img class="profile__overlay_pen" src="<%=require('./images/pen.png')%>" alt="Карандаш">
+          </div>
+        </div>
         <div class="profile-info">
           <div class="profile-info__container">
             <h1 class="profile-info__name">Жак-Ив Кусто</h1>
@@ -43,7 +48,7 @@
           <span class="popup__error name-input-error"></span>
           <input type="text" class="popup__input popup__input_user_job" id="job-input" name="job" required placeholder="Род занятий" value="" minlength="2" maxlength="200">
           <span class="popup__error job-input-error"></span>
-          <button type="submit" disabled class="popup__save popup__button">Сохранить</button>
+          <button type="submit" disabled class="popup__button popup__save">Сохранить</button>
       </form>
     </div>
   </div>
@@ -70,18 +75,41 @@
     </div>
   </div>
 
+  <div class="popup popup_type_confirm">
+    <div class="popup__container">
+      <button type="button" class="popup__close popup__close_confirm"></button>
+      <h1 class="popup__title">Вы уверены?</h1>
+      <button type="submit" disabled class="popup__button popup__button_confirm">Да</button>
+    </div>
+  </div>
+
+  <div class="popup popup_type_avatar">
+    <div class="popup__container">
+      <button type="button" class="popup__close popup__close_avatar"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form name="formAvatar" id="formAvatar" class="popup__form popup__form_avatar" action="#" novalidate>
+          <input type="url" class="popup__input popup__input_avatar_link" id="avatar-link-input" name="avatar_link" autocomplete="on" required placeholder="Ссылка на аватар" value="https://somewebsite.com/someimage.jpg"> <!--name="link"-->
+          <span class="popup__error avatar-link-input-error"></span>
+        <button type="submit" disabled class="popup__button popup__button_disabled">Сохранить</button>
+      </form>
+    </div>
+  </div>
+
   <template id="element-template">
     <article class="element">
       <img class="element__image" src="#" alt="#">
       <button class="element__trash" type="button"></button>
       <div class="element__text">
         <h2 class="element__title"></h2>
-        <button class="element__like" type="button"></button>
+        <div class="element__group">
+          <button class="element__like" type="button"></button>
+          <div class="element__count">6</div>
+        </div>
       </div>
     </article>
   </template>
 
-<script type="module" src="pages/index.js"></script>
+<!--<script type="module" src="pages/index.js"></script> теперь это делает webpack-->
 
   <!--Для scripts_functional-->
   <!--<script src="scripts/initial-cards.js"></script>
