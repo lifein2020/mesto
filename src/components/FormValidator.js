@@ -2,7 +2,6 @@ export default
 class FormValidator {
   constructor(config, formObject) {
     //переменные из конфига
-    //this._formSelector = config.formSelector;
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
     this._activeButtonClass = config.activeButtonClass;
@@ -10,7 +9,7 @@ class FormValidator {
     this._inputErrorClass = config.inputErrorClass;
     this._errorClassUnvisible = config.errorClassUnvisible;
     this._errorClass = config.errorClass;
-    this._mismatchErrorMessage = config.mismatchErrorMessage;
+    //this._mismatchErrorMessage = config.mismatchErrorMessage;
     //DOM-объект формы
     this._formObject = formObject;
   }
@@ -41,17 +40,18 @@ class FormValidator {
     this._input = event.target; //элемент который отправил это событие, инпут инициализирует событие и в таргет попадает именно он
     this._form = event.currentTarget; //то на что повесили событие
 
-    //Шаг 1. Найдем невалидные поля и установаим тексты ошибок
-    this._setCustomError(this._input);
-    // Шаг 2. Показываем тексты ошибок, если поле не валидно
+    //Шаг 1. Найдем невалидные поля и установаим кастомные тексты ошибок (не по ТЗ)
+    /*this._setCustomError(this._input);*/
+
+    // Шаг 2. Показываем стандартные тексты ошибок, если поле не валидно
     this._checkInputValidity(this._input, this._form);
 
     //Шаг3. Активируем или деактивируем кнопку
     this._toggleSubmitButtonState(this._form);
   }
 
-  //ошибки вводим, но не показываем пока
-_setCustomError(input) {
+  //ошибки вводим, но не показываем пока(кастомные тексты ошибок)
+/*_setCustomError(input) {
   this._validity = input.validity; // validity - встроенный объект в JS, содержит флаги на валидацию
 
 //обнулим ошибку на каждом шаге перед проверками, вдруг пользователь ввел правильно
@@ -72,12 +72,13 @@ _setCustomError(input) {
   if (this._validity.typeMismatch) {
     input.setCustomValidity (this._mismatchErrorMessage);
   }
-}
+}*/
+
   //Показываем ошибку
 _showError(input, form) {
   //получаем спан и присваиваем ему значение этой ошибки
   this._span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
-  this._span.textContent = input.validationMessage; // это сообщение, которое установится в setCustomValidity
+  this._span.textContent = input.validationMessage; // validationMessage - стандартные браузерные тексты ошибок. Это сообщение, которое установится в setCustomValidity. "Связываем JS-методы валидации с DOM"
   this._span.classList.add(this._errorClass);
   this._span.classList.remove(this._errorClassUnvisible);
   input.classList.add(this._inputErrorClass);
@@ -95,6 +96,7 @@ _hideError(input, form) {
 // проверка валидности полей формы
 _checkInputValidity(input, form) {
   this._validity = input.validity;
+  input.setCustomValidity("");
 
   if (!this._validity.valid) {
     this._showError(input, form);
