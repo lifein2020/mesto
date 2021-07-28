@@ -144,3 +144,4 @@ popupWithAddForm.setEventListeners();
 
 buttonOpenPopupEdit.addEventListener('click', () => openPopupEdit());
 buttonOpenPopupAdd.addEventListener('click', () => popupWithAddForm.openPopup());
+
