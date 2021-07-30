@@ -1,9 +1,11 @@
 export default class Card {
-  constructor({ handleCardClick }, data, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
+  constructor({ /*itemData, ownerId,*/ handleCardClick }, data, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    /*this._ownerId = ownerId;
+    this._itemDataOwnerId = itemData.owner._id;*/
   }
 
   _getTemplate() {
@@ -27,6 +29,7 @@ export default class Card {
     this._elementLike = this._cardElement.querySelector('.element__like');
     this._elementTrash = this._cardElement.querySelector('.element__trash');
 
+    //this._showCardTrash();
     this._setEventListeners();
 
     return this._cardElement;
@@ -52,7 +55,22 @@ export default class Card {
 
   _handleDeliteCard() {
     this._elementTrash.closest('.element').remove();
+    //cardDelite();
   }
+
+  /*_showCardTrash() {
+    if (this._ownerId === this._itemDataOwnerId) {
+      /*this._trush = this._cardElement.getElementsByClassName('element__trash');
+      this._trush.className.remove('element__trash');
+
+      this._cardElement.querySelector('.element__trash').classList.add('element__trash_visible');
+    }
+  }
+
+  cardDelite() {
+    this._cardElement.remove();
+    this._cardElement = null;
+  }*/
 
 }
 

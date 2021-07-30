@@ -14,6 +14,7 @@
   -khtml-border-radius: 50%;
   opacity: 0;
   transition: opacity .1s ease-in;
+  border: none;
 }
 
 .profile__overlay:hover {

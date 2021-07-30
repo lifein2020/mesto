@@ -24,6 +24,7 @@
 @import url(../blocks/element/__like/element__like.css);
 @import url(../blocks/element/__count/element__count.css);
 @import url(../blocks/element/__trash/element__trash.css);
+@import url(../blocks/element/__trash/_visible/element__trash_visible.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__title/footer__title.css);
 @import url(../blocks/footer/__subtitle/footer__subtitle.css);
