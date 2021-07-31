@@ -8,7 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 import PopupWithSubmit from '../components/PopupWithSubmit.js';
-import { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, /*buttonOpenPopupDelite,*/ formAddElement, formEditElement, formEditInputName, formEditInputJob, popupImage, popupTitle, elements, elementCount, config} from '../utils/constants.js';
+import { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, formAddElement, formEditElement, formEditInputName, formEditInputJob, popupImage, popupTitle, elements, elementCount, config} from '../utils/constants.js';
 
 //-------------Создание экземпляров классов-----------------
 
@@ -51,9 +51,11 @@ function createCard(item) { //(item)
     {
       data: item,
       ownerId: userData._id, // мой id
+      /*handleLikeCardSubmit: (cardInstance) => handleLikeCardSubmit(cardInstance),*/
       handleDeliteCard: (cardInstance) => {
         console.log(cardInstance);
-        deliteCard(cardInstance)},
+        deliteCard(cardInstance)
+      },
         /* либо popupWithSubmitDelite.openPopup();
         popupWithSubmitDelite.setFormSubmit(() => {}*/
       handleCardClick: (title, image) => {
@@ -274,6 +276,7 @@ buttonOpenPopupAvatar.addEventListener('click', () => popupWithAvatarForm.openPo
 popupWithAvatarForm.setEventListeners();
 
 
+//const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
 const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
 popupWithSubmitDelite.setEventListeners();
 
@@ -297,7 +300,7 @@ function deliteCard(card) {
     })
       .then(() => {
         //console.log(card);
-        card.cardDelite();
+        //card.cardDelite();
         popupWithSubmitDelite.closePopup();
       })
       .catch((err) => {
@@ -306,6 +309,20 @@ function deliteCard(card) {
   });
   popupWithSubmitDelite.openPopup();
 }
+
+
+//Ставим/удаляем лайки
+
+/*function handleLikeCardSubmit(card) {
+  //api.changeLikeCard(card.cardId, card.isLiked())
+  fetch
+    .then((data) => {
+      card.setLike(data);
+    })
+    .catch((err) => {
+      console.log(`$(err)`);
+    })
+  };*/
 
 //buttonOpenPopupDelite.addEventListener('click', () => popupWithSubmitDelite.openPopup());
 

@@ -1,11 +1,15 @@
 export default class Card {
-  constructor({ data, ownerId, handleDeliteCard, handleCardClick}, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
-    this._ownerId = ownerId; // id мой
-    this._dataOwnerId = data.owner._id; //id приходящий с сервера
-    this._handleDeliteCard = handleDeliteCard;
-    this._handleCardClick = handleCardClick;
+  constructor({ data, ownerId, /*handleLikeCardSubmit, */handleDeliteCard, handleCardClick}, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
     this._name = data.name;
     this._link = data.link;
+    /*this._likes = data.likes.length;
+    this._likesArray = this.likes;*/
+    //this._likesArray = data.likes.length;
+    this._dataOwnerId = data.owner._id; //id приходящий с сервера
+    this._ownerId = ownerId; // id мой
+    //this._handleLikeCardSubmit =handleLikeCardSubmit;
+    this._handleDeliteCard = handleDeliteCard;
+    this._handleCardClick = handleCardClick;
     this._cardSelector = cardSelector;
   }
 
@@ -38,7 +42,7 @@ export default class Card {
 
   _setEventListeners() {
     this._elementLike.addEventListener('click', () => {
-      this._handleLikeCardSubmit();
+      this._handleLikeCardSubmit();//this._handleLikeCardSubmit(this);
     });
 
     this._elementTrash.addEventListener('click', () => {
@@ -68,9 +72,30 @@ export default class Card {
   }
 
   cardDelite() {
+    /*this._card = generateCard();
+    this._card.remove();
+    this._card = null;*/
     this._cardElement.remove();
     this._cardElement = null;
   }
+
+  /*isLiked() {
+    return Boolean(this._likesArray.find((data) => {return data._id === this._ownerId}));
+  }
+
+  _updateLikeColor(item){
+    this._element.querySelector(".element__count").textcontent = item.likes.length;
+    if(this.isLiked()) {
+      this._elementLike.querySelector('.element__like')classList.add('.element__like_active');
+    } else {
+      this._elementLike.querySelector('.element__like').classList.remove('.element__like_active');
+    }
+  }
+
+  setLike(item) {
+    this._likesArray = item.likes;
+    this._updateLikeColor();
+  }*/
 
 }
 

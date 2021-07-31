@@ -6,7 +6,6 @@ export { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, /*butto
 const buttonOpenPopupEdit = document.querySelector('.profile-info__edit-button');
 const buttonOpenPopupAdd = document.querySelector('.profile__add-button');
 const buttonOpenPopupAvatar = document.querySelector('.profile__overlay');
-//const buttonOpenPopupDelite = document.querySelector('.element__trash_visible');
 
 const formAddElement = document.querySelector('.popup__form_add');
 const formEditElement = document.querySelector('.popup__form_edit'); /*либо не document, а popupElement - если попапов несколько https://learn.javascript.ru/form-elements*/
@@ -27,7 +26,7 @@ const config = {
   popupEditSelector: '.popup_type_edit',
   popupAddSelector: '.popup_type_add-card',
   popupAvatarSelector: '.popup_type_avatar',
-  popupDeliteSelector: 'popup_type_confirm',
+  popupDeliteSelector: '.popup_type_confirm',
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
