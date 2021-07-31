@@ -1,10 +1,11 @@
 import Popup from './Popup.js'
 
 export default class PopupWithSubmit extends Popup{
-  constructor(popupSelector, popupFormSelector) {
+  constructor(popupSelector) {
     super(popupSelector);
-    this._popupForm = this._popupElement.querySelector(`${popupFormSelector}`);
-    //this._form = document.querySelector('.popup__form_confirm');
+    //this._popupForm = document.querySelector(`${popupFormSelector}`);
+    this._popupDelite = document.querySelector('.popup_type_confirm');
+    this._popupFormDelite = document.querySelector('.popup__form_confirm');
     this._handleSubmitCallback = null;
 
   }
@@ -15,9 +16,7 @@ export default class PopupWithSubmit extends Popup{
 
   setEventListeners() {
     super.setEventListeners();
-    //вызывать функцию при сабмите
-    //нет формы которую надо валидировать.
-    this._form.addEventListener('submit', (evt) => {
+    this._popupFormDelite.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._handleSubmitCallback();
     })

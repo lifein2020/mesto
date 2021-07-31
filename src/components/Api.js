@@ -1,5 +1,5 @@
 export default class Api {
-  constructor ({ baseUrl, headers }) {
+  constructor ({ baseUrl, headers }) {//токен
     this.baseUrl = baseUrl;
     this.headers = headers;
   }

@@ -7,7 +7,7 @@ import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
-//import PopupWithSubmit from '../components/PopupWithSubmit.js';
+import PopupWithSubmit from '../components/PopupWithSubmit.js';
 import { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, /*buttonOpenPopupDelite,*/ formAddElement, formEditElement, formEditInputName, formEditInputJob, popupImage, popupTitle, elements, elementCount, config} from '../utils/constants.js';
 
 //-------------Создание экземпляров классов-----------------
@@ -20,12 +20,42 @@ const FormAvatarValidator = new FormValidator(config, '.popup__form_avatar');
 const popupShowCardImage = new PopupWithImage('.popup_type_image');
 popupShowCardImage.setEventListeners();
 
+let userData
+
+fetch('https://nomoreparties.co/v1/cohort-26/users/me', {
+  headers: {
+    authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
+    'Content-Type': 'application/json'
+  }
+})
+  .then(res => {
+    if (res.ok) {
+      return res.json();
+    }
+  return Promise.reject(`Ошибка: ${res.status}`);
+  })
+  .then((result) => {
+    //console.log(result);
+    userData = result;
+    //console.log(userData)
+  })
+   .catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    })
+
+
+
 // Создание карточки вынесено в отдельную функцию
 function createCard(item) { //(item)
   const card = new Card(
     {
-      /*itemData: item,
-      ownerId: "1afc6de1c6708c99f74c26a1",*/
+      data: item,
+      ownerId: userData._id, // мой id
+      handleDeliteCard: (cardInstance) => {
+        console.log(cardInstance);
+        deliteCard(cardInstance)},
+        /* либо popupWithSubmitDelite.openPopup();
+        popupWithSubmitDelite.setFormSubmit(() => {}*/
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
           titleElement: title,
@@ -36,7 +66,6 @@ function createCard(item) { //(item)
         )
       }
     },
-    item,
     '#element-template',
     '.popup_is-opened',
   );
@@ -53,96 +82,6 @@ const cardsList = new Section ({
 },
 elements //'.elements'
 );
-
-// Попап добавления карточек на страницу
-/*const popupWithAddForm = new PopupWithForm({
-  handleFormSubmit: ({ card_name, card_image_link }) => {
-    const cardAdd = createCard({ name: card_name, link: card_image_link });
-    cardsList.addItem(cardAdd);  //elements.prepend(cardAdd);
-    popupWithAddForm.closePopup();
-  }
-},
-  config.popupAddSelector, //'.popup_type_add-card',
-  config.formSelector,   //'.popup__form_add',
-  config.inputSelector // '.popup__input',
-);*/
-
-// Отображение картинок по дефолту
-/*const cardsList = new Section ({
-  data: initialCards,
-  renderer: (currentItem) => {
-    const card = new Card({
-      /*handleCardClick: (name, link) => {
-        //popupShowCardImage.openPopup({link, name}, '.popup__image',
-        //'.popup__title-image');
-
-      handleCardClick: () => {
-        popupShowCardImage.openPopup({
-          linkElement: currentItem.link,
-          titleElement: currentItem.name},
-          '.popup__image',
-          '.popup__title-image'
-          );
-      }
-    },
-    currentItem,
-    '#element-template',
-    '.popup_is-opened');
-    const newCard = card.generateCard();
-    elements.append(newCard);
-  }
-
-},
-elements //'.elements'
-);*/
-
-/*// Данные профиля на странице
-const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobselector: '.profile-info__activity'});
-
-// Попап редактирования профиля
-const popupWithEditForm = new PopupWithForm(
-  {
-    handleFormSubmit: ({name, job}) => {
-      profileInfo.setUserInfo({name, job});
-      popupWithEditForm.closePopup();
-    }
-  },
-  config.popupEditSelector,//'.popup_type_edit',
-  config.formSelector,//'.popup__form_edit',
-  config.inputSelector//'.popup__input',
-);*/
-
-// Попап добавления карточек на страницу
-/*const popupWithAddForm = new PopupWithForm({
-    handleFormSubmit: ({ card_name, card_image_link }) => {
-      const card = new Card(
-        {
-          handleCardClick: () => {
-            popupShowCardImage.openPopup(
-              {
-                linkElement: card_image_link,
-                titleElement: card_name,
-              },
-              '.popup__image',
-              '.popup__title-image'
-            );
-          }
-        },
-        { name: card_name, link: card_image_link }, // это this._getInputValues()
-        '#element-template',
-        '.popup_is-opened'
-      );
-      const newCard = card.generateCard();
-      elements.prepend(newCard);
-      popupWithAddForm.closePopup();
-
-      FormAddValidator.setSubmitButtonInactiveState(formAddElement);
-    }
-  },
-  '.popup_type_add-card',
-  '.popup__form_add',
-  '.popup__input',
-);*/
 
 // Функция открытия попапа редактирования профиля, описывающая взаимодействие классов
 function openPopupEdit() {
@@ -201,7 +140,7 @@ buttonOpenPopupAdd.addEventListener('click', () => openPopupAdd());
   api.getInitialCards()
   .then(cardsArray => {
     cardsList.initialCards(cardsArray);
-    console.log(cardsArray);
+    //console.log(cardsArray);
   }
   )
   /*.then(cardsArray => {
@@ -335,13 +274,13 @@ buttonOpenPopupAvatar.addEventListener('click', () => popupWithAvatarForm.openPo
 popupWithAvatarForm.setEventListeners();
 
 
-/*const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector, config.formSelector,);
+const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
 popupWithSubmitDelite.setEventListeners();
 
-function cardDelite(card) {
+function deliteCard(card) {
   popupWithSubmitDelite.setFormSubmit(() => {
-    //api.deliteCard(card._id)
-    fetch('https://mesto.nomoreparties.co/v1/cohort-26/cards/5d1f0611d321eb4bdcd707dd', {
+    //api.deliteCard(card.cardId)
+    fetch('https://mesto.nomoreparties.co/v1/cohortId/cards/1afc6de1c6708c99f74c26a1', {
       method: 'DELETE',
       headers: {
         authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
@@ -356,10 +295,9 @@ function cardDelite(card) {
       }
     return Promise.reject(`Ошибка: ${res.status}`);
     })
-      .then((card) => {
-        console.log(card);
-
-
+      .then(() => {
+        //console.log(card);
+        card.cardDelite();
         popupWithSubmitDelite.closePopup();
       })
       .catch((err) => {
@@ -367,7 +305,7 @@ function cardDelite(card) {
       });
   });
   popupWithSubmitDelite.openPopup();
-}*/
+}
 
 //buttonOpenPopupDelite.addEventListener('click', () => popupWithSubmitDelite.openPopup());
 
@@ -387,3 +325,96 @@ function cardDelite(card) {
 )
 buttonOpenPopupAvatar.addEventListener('click', () => popupWithAvatarForm.openPopup());
 popupWithAvatarForm.handleFormSubmit();*/
+
+
+//*****************  8sprint  ********************/
+
+// Попап добавления карточек на страницу
+/*const popupWithAddForm = new PopupWithForm({
+  handleFormSubmit: ({ card_name, card_image_link }) => {
+    const cardAdd = createCard({ name: card_name, link: card_image_link });
+    cardsList.addItem(cardAdd);  //elements.prepend(cardAdd);
+    popupWithAddForm.closePopup();
+  }
+},
+  config.popupAddSelector, //'.popup_type_add-card',
+  config.formSelector,   //'.popup__form_add',
+  config.inputSelector // '.popup__input',
+);*/
+
+// Отображение картинок по дефолту
+/*const cardsList = new Section ({
+  data: initialCards,
+  renderer: (currentItem) => {
+    const card = new Card({
+      /*handleCardClick: (name, link) => {
+        //popupShowCardImage.openPopup({link, name}, '.popup__image',
+        //'.popup__title-image');
+
+      handleCardClick: () => {
+        popupShowCardImage.openPopup({
+          linkElement: currentItem.link,
+          titleElement: currentItem.name},
+          '.popup__image',
+          '.popup__title-image'
+          );
+      }
+    },
+    currentItem,
+    '#element-template',
+    '.popup_is-opened');
+    const newCard = card.generateCard();
+    elements.append(newCard);
+  }
+
+},
+elements //'.elements'
+);*/
+
+/*// Данные профиля на странице
+const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobselector: '.profile-info__activity'});
+
+// Попап редактирования профиля
+const popupWithEditForm = new PopupWithForm(
+  {
+    handleFormSubmit: ({name, job}) => {
+      profileInfo.setUserInfo({name, job});
+      popupWithEditForm.closePopup();
+    }
+  },
+  config.popupEditSelector,//'.popup_type_edit',
+  config.formSelector,//'.popup__form_edit',
+  config.inputSelector//'.popup__input',
+);*/
+
+// Попап добавления карточек на страницу
+/*const popupWithAddForm = new PopupWithForm({
+    handleFormSubmit: ({ card_name, card_image_link }) => {
+      const card = new Card(
+        {
+          handleCardClick: () => {
+            popupShowCardImage.openPopup(
+              {
+                linkElement: card_image_link,
+                titleElement: card_name,
+              },
+              '.popup__image',
+              '.popup__title-image'
+            );
+          }
+        },
+        { name: card_name, link: card_image_link }, // это this._getInputValues()
+        '#element-template',
+        '.popup_is-opened'
+      );
+      const newCard = card.generateCard();
+      elements.prepend(newCard);
+      popupWithAddForm.closePopup();
+
+      FormAddValidator.setSubmitButtonInactiveState(formAddElement);
+    }
+  },
+  '.popup_type_add-card',
+  '.popup__form_add',
+  '.popup__input',
+);*/
