@@ -33,22 +33,6 @@ export default class Api {
     console.log(results); // ["Первый промис", "Второй промис"]
   });*/
 
-
-  /*getInitialCards() {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-42/cards', {
-      headers: {
-        authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6'
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-  }*/
-
   // Добавление карточек
   postAddCard({ card_name, card_image_link }) {
     return fetch(`${this.baseUrl}cards`, {
@@ -60,26 +44,6 @@ export default class Api {
       headers: this.headers
     }).then(this._getResponse);
   }
-
-  /*postAddCard(method, name, link) {
-    this._method = method;
-    this._name = name;
-    this._link = link;
-    return fetch(`${this.baseUrl}cards`, {
-      method: this._method,
-      body: JSON.stringify({
-        name: this._name,
-        link: this._link
-      }),
-      headers: this.headers},
-    })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-    return Promise.reject(`Ошибка: ${res.status}`);
-    });
-  }*/
 
   // Редактирование профиля
   patchAboutUserInfo({name, job}) {
@@ -107,7 +71,7 @@ export default class Api {
   }
 
   // Удаление карточки
-  setDeliteCard(id) {
+  deliteCard(id) {
     return fetch(`${this.baseUrl}cards/${id}`, { //`${this.baseUrl}users/me/avatar`
       method: 'DELETE',
       headers: this.headers
@@ -133,9 +97,9 @@ export default class Api {
     .then(this._getResponse);
   }
 
-  toggleLakeCard(id, like) {
+  toggleLikeCard(id, like) {
     return fetch(`${this.baseUrl}cards/likes/${id}`, {
-      method: like ? 'DELITE' : 'PUT',
+      method: like ? 'DELITE' : 'PUT', //если карточка уже лайкнута(черный лайк), то удалить лайк, иначе поставить
       headers: this.headers
     })
     .then(this._getResponse);
@@ -149,3 +113,40 @@ export default class Api {
     this._headers = config.headers;
   }
 }*/
+
+
+/*getInitialCards() {
+    return fetch('https://mesto.nomoreparties.co/v1/cohort-42/cards', {
+      headers: {
+        authorization: 'c56e30dc-2883-4270-a59e-b2f7bae969c6'
+      }
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
+  }*/
+
+  /*postAddCard(method, name, link) {
+    this._method = method;
+    this._name = name;
+    this._link = link;
+    return fetch(`${this.baseUrl}cards`, {
+      method: this._method,
+      body: JSON.stringify({
+        name: this._name,
+        link: this._link
+      }),
+      headers: this.headers},
+    })
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
+  */

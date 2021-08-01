@@ -12,10 +12,12 @@ export default class PopupWithSubmit extends Popup{
 
   }
 
+  // Логика работы обработчика отправки формы (handler) описывается во внешней функции deliteCard() и попадает в обработчик при клике на корзину
   setFormSubmit(handler) {
     this._handleSubmitCallback = handler;
   }
 
+  // Вешаем на форму неопределенный обработчик
   setEventListeners() {
     super.setEventListeners();
     this._popupFormDelite.addEventListener('submit', (evt) => {
