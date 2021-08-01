@@ -1,13 +1,13 @@
 export default class Card {
-  constructor({ data, ownerId, /*handleLikeCardSubmit, */handleDeliteCard, handleCardClick}, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
+  constructor({ data, ownerId, handleLikeCardSubmit, handleDeliteCard, handleCardClick}, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
     this._name = data.name;
     this._link = data.link;
-    /*this._likes = data.likes.length;
-    this._likesArray = this.likes;*/
+    this._likes = data.likes.length;
+    this._likesArray = this.likes;
     //this._likesArray = data.likes.length;
     this._dataOwnerId = data.owner._id; //id приходящий с сервера
     this._ownerId = ownerId; // id мой
-    //this._handleLikeCardSubmit =handleLikeCardSubmit;
+    this._handleLikeCardSubmit =handleLikeCardSubmit;
     this._handleDeliteCard = handleDeliteCard;
     this._handleCardClick = handleCardClick;
     this._cardSelector = cardSelector;
@@ -79,23 +79,25 @@ export default class Card {
     this._cardElement = null;
   }
 
-  /*isLiked() {
+  isLiked() {
     return Boolean(this._likesArray.find((data) => {return data._id === this._ownerId}));
   }
 
-  _updateLikeColor(item){
+  // Устанавливает количество лайков = длине приходящего массива лайков и меняет состояние лайка
+  _updateLike(item){
     this._element.querySelector(".element__count").textcontent = item.likes.length;
     if(this.isLiked()) {
-      this._elementLike.querySelector('.element__like')classList.add('.element__like_active');
+      this._elementLike.querySelector('.element__like').classList.add('.element__like_active');
     } else {
       this._elementLike.querySelector('.element__like').classList.remove('.element__like_active');
     }
   }
 
+  // Обновление массива с лайками(актуализирует информацию о лайках внутри карточки)
   setLike(item) {
-    this._likesArray = item.likes;
-    this._updateLikeColor();
-  }*/
+    this._likesArray = item.likes; //первоначальный масив лайков обновляем массивом,который пришел
+    this._updateLike();
+  }
 
 }
 

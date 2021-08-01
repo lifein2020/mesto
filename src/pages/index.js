@@ -20,9 +20,17 @@ const FormAvatarValidator = new FormValidator(config, '.popup__form_avatar');
 const popupShowCardImage = new PopupWithImage('.popup_type_image');
 popupShowCardImage.setEventListeners();
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-26/',
+  headers: {
+    authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
+    'Content-Type': 'application/json'
+  }
+});
+
 let userData
 
-fetch('https://nomoreparties.co/v1/cohort-26/users/me', {
+/*fetch('https://nomoreparties.co/v1/cohort-26/users/me', {
   headers: {
     authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
     'Content-Type': 'application/json'
@@ -33,16 +41,63 @@ fetch('https://nomoreparties.co/v1/cohort-26/users/me', {
       return res.json();
     }
   return Promise.reject(`Ошибка: ${res.status}`);
-  })
+  })*/
+  api.getAboutUserInfo()
   .then((result) => {
     //console.log(result);
     userData = result;
-    //console.log(userData)
+    console.log(userData)
   })
    .catch((err) => {
       console.log(err); // выведем ошибку в консоль
     })
 
+//const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
+const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
+popupWithSubmitDelite.setEventListeners();
+
+function deliteCard(card) {
+  popupWithSubmitDelite.setFormSubmit(() => {
+    api.deliteCard(card.cardId)
+    /*fetch('https://mesto.nomoreparties.co/v1/cohortId/cards/1afc6de1c6708c99f74c26a1', {
+      method: 'DELETE',
+      headers: {
+        authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => {
+      if (res.ok) {
+        //console.log(res);
+        return res.json();
+
+      }
+    return Promise.reject(`Ошибка: ${res.status}`);
+    })*/
+      .then(() => {
+        console.log(card);
+        //card.cardDelite();
+        popupWithSubmitDelite.closePopup();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+  popupWithSubmitDelite.openPopup();
+}
+
+//Ставим/удаляем лайки
+//Сервер отвечает новой карточкой data, в которой массив данных уже обновлен setLike
+
+function handleLikeCardSubmit(card) {
+  api.toggleLakeCard(card.cardId, card.isLiked())
+    .then((data) => {
+      card.setLike(data);
+    })
+    .catch((err) => {
+      console.log(`$(err)`);
+    })
+  };
 
 
 // Создание карточки вынесено в отдельную функцию
@@ -51,7 +106,7 @@ function createCard(item) { //(item)
     {
       data: item,
       ownerId: userData._id, // мой id
-      /*handleLikeCardSubmit: (cardInstance) => handleLikeCardSubmit(cardInstance),*/
+      handleLikeCardSubmit: (cardInstance) => handleLikeCardSubmit(cardInstance),
       handleDeliteCard: (cardInstance) => {
         console.log(cardInstance);
         deliteCard(cardInstance)
@@ -101,8 +156,6 @@ function openPopupAdd() {
   FormAddValidator.setSubmitButtonInactiveState(formAddElement);
 }
 
-//function openAvatar() {}
-
 // ------------------------Вызов методов экземпляров----------------------
 
 FormEditValidator.enableValidation();
@@ -131,16 +184,11 @@ buttonOpenPopupAdd.addEventListener('click', () => openPopupAdd());
     console.log(result);
   });*/
 
-  const api = new Api({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-26/cards',
-    headers: {
-      authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
-      'Content-Type': 'application/json'
-    }
-  });
+
 
   api.getInitialCards()
   .then(cardsArray => {
+    //console.log(cardsArray)
     cardsList.initialCards(cardsArray);
     //console.log(cardsArray);
   }
@@ -157,7 +205,7 @@ buttonOpenPopupAdd.addEventListener('click', () => openPopupAdd());
 // Попап добавления карточек на страницу
 const popupWithAddForm = new PopupWithForm({
   handleFormSubmit: ({ card_name, card_image_link }) => {
-    fetch('https://mesto.nomoreparties.co/v1/cohort-26/cards', {
+    /*fetch('https://mesto.nomoreparties.co/v1/cohort-26/cards', {
       method: 'POST',
       body: JSON.stringify({
         name: card_name,
@@ -173,7 +221,8 @@ const popupWithAddForm = new PopupWithForm({
         return res.json();
       }
     return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    })*/
+    api.postAddCard({ card_name, card_image_link })
     .then(card => {
       //console.log(card)
       const cardAdd = createCard({ name: card.name, link: card.link });
@@ -202,7 +251,7 @@ const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJ
 const popupWithEditForm = new PopupWithForm(
   {
     handleFormSubmit: ({name, job}) => {
-      fetch('https://mesto.nomoreparties.co/v1/cohort-26/users/me', {
+      /*fetch('https://mesto.nomoreparties.co/v1/cohort-26/users/me', {
       method: 'PATCH',
       headers: {
         authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
@@ -218,7 +267,8 @@ const popupWithEditForm = new PopupWithForm(
         return res.json();
       }
     return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    })*/
+    api.patchAboutUserInfo({name, job})
     .then(dataProfile => {
       //console.log(dataProfile)
       profileInfo.setUserInfo(dataProfile);
@@ -238,7 +288,7 @@ popupWithEditForm.setEventListeners();
 // Замена аватара
 const popupWithAvatarForm = new PopupWithForm({
   handleFormSubmit: ({ avatar_link }) => {
-    fetch('https://mesto.nomoreparties.co/v1/cohort-26/users/me/avatar', {
+    /*fetch('https://mesto.nomoreparties.co/v1/cohort-26/users/me/avatar', {
       method: 'PATCH',
       headers: {
         authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
@@ -255,7 +305,8 @@ const popupWithAvatarForm = new PopupWithForm({
 
       }
     return Promise.reject(`Ошибка: ${res.status}`);
-    })
+    })*/
+    api.patchAvatarUser({ avatar_link })
     .then(data => {
       //console.log(data)
       const imageAvatar = document.querySelector('.profile__avatar');
@@ -276,55 +327,8 @@ buttonOpenPopupAvatar.addEventListener('click', () => popupWithAvatarForm.openPo
 popupWithAvatarForm.setEventListeners();
 
 
-//const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
-const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
-popupWithSubmitDelite.setEventListeners();
-
-function deliteCard(card) {
-  popupWithSubmitDelite.setFormSubmit(() => {
-    //api.deliteCard(card.cardId)
-    fetch('https://mesto.nomoreparties.co/v1/cohortId/cards/1afc6de1c6708c99f74c26a1', {
-      method: 'DELETE',
-      headers: {
-        authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
-        'Content-Type': 'application/json'
-      },
-    })
-    .then(res => {
-      if (res.ok) {
-        //console.log(res);
-        return res.json();
-
-      }
-    return Promise.reject(`Ошибка: ${res.status}`);
-    })
-      .then(() => {
-        //console.log(card);
-        //card.cardDelite();
-        popupWithSubmitDelite.closePopup();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
-  popupWithSubmitDelite.openPopup();
-}
 
 
-//Ставим/удаляем лайки
-
-/*function handleLikeCardSubmit(card) {
-  //api.changeLikeCard(card.cardId, card.isLiked())
-  fetch
-    .then((data) => {
-      card.setLike(data);
-    })
-    .catch((err) => {
-      console.log(`$(err)`);
-    })
-  };*/
-
-//buttonOpenPopupDelite.addEventListener('click', () => popupWithSubmitDelite.openPopup());
 
 // Замена аватара 2
 /*const popupWithAvatarForm = new PopupWithForm({
