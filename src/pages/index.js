@@ -23,6 +23,9 @@ const popupShowCardImage = new PopupWithImage('.popup_type_image');
 //const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector); // почему не работает?
 const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
 
+// Данные профиля на странице
+const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobselector: '.profile-info__activity'});
+//console.log(profileInfo)
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-26/',
@@ -36,12 +39,14 @@ let userData
 
 api.getAboutUserInfo()
 .then((result) => {
-  //console.log(result);
+  console.log(result);
   userData = result;
   //console.log(userData)
+  profileInfo.setUserInfo(result); //чтобы данные сохранялись после перезагрузки страницы
+  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
 })
 .catch((err) => {
-  console.log(err); // выведем ошибку в консоль
+  console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
 })
 
 function deliteCard(card) {
@@ -53,7 +58,7 @@ function deliteCard(card) {
         popupWithSubmitDelite.closePopup();
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Ошибка при удалении карточки");
       });
   });
   popupWithSubmitDelite.openPopup();
@@ -134,7 +139,7 @@ const popupWithAddForm = new PopupWithForm({
       cardsList.addItem(cardAdd);
 
       popupWithAddForm.closePopup();
-      debugger
+      //debugger
     })
     .catch((err) => {
       console.log("Ошибка при добавлении карточек на страницу");
@@ -146,11 +151,6 @@ const popupWithAddForm = new PopupWithForm({
   config.inputSelector
 );
 
-
-// Данные профиля на странице
-const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobselector: '.profile-info__activity'});
-//console.log(profileInfo)
-
 // Попап редактирования профиля
 const popupWithEditForm = new PopupWithForm(
   {
@@ -159,7 +159,7 @@ const popupWithEditForm = new PopupWithForm(
       .then(dataProfile => {
         //console.log(dataProfile)
         profileInfo.setUserInfo(dataProfile);
-        console.log(dataProfile)
+        //console.log(dataProfile)
         popupWithEditForm.closePopup();
       })
       .catch((err) => {
@@ -177,10 +177,11 @@ const popupWithEditForm = new PopupWithForm(
 const popupWithAvatarForm = new PopupWithForm({
   handleFormSubmit: ({ avatar_link }) => {
     api.patchAvatarUser({ avatar_link })
-    .then(data => {
-      //console.log(data)
-      const imageAvatar = document.querySelector('.profile__avatar');
-      imageAvatar.setAttribute("src", data.avatar);
+    .then(dataProfile => {
+      console.log(dataProfile)
+      /*const imageAvatar = document.querySelector('.profile__avatar');
+      imageAvatar.setAttribute("src", dataProfile.avatar);*/
+      profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, dataProfile);
       popupWithAvatarForm.closePopup();
     })
     .catch((err) => {
