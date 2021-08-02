@@ -24,7 +24,7 @@ const popupShowCardImage = new PopupWithImage('.popup_type_image');
 const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
 
 // Данные профиля на странице
-const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobselector: '.profile-info__activity'});
+const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobSelector: '.profile-info__activity'});
 //console.log(profileInfo)
 
 const api = new Api({
@@ -39,7 +39,7 @@ let userData
 
 api.getAboutUserInfo()
 .then((result) => {
-  console.log(result);
+  //console.log(result);
   userData = result;
   //console.log(userData)
   profileInfo.setUserInfo(result); //чтобы данные сохранялись после перезагрузки страницы
@@ -117,16 +117,18 @@ const cardsList = new Section ({
 elements
 );
 
-// Инициализируем карточки по дефолту после прихода данных с сервера
+// Инициализируем карточки после прихода данных с сервера
 api.getInitialCards()
 .then(cardsArray => {
-  //console.log(cardsArray)
+  console.log(cardsArray);
+
   cardsList.initialCards(cardsArray);
-  //console.log(cardsArray);
+  //createCard(cardsArray);
+  //popupWithAddForm.setEventListeners(cardsArray);
 }
 )
 .catch((err) => {
-  console.log(err);
+  console.log("Ошибка при получении карточек с сервера");
 });
 
 // Попап добавления карточек на страницу
@@ -134,15 +136,16 @@ const popupWithAddForm = new PopupWithForm({
   handleFormSubmit: ({ card_name, card_image_link }) => {
     api.postAddCard({ card_name, card_image_link })
     .then(card => {
-      //console.log(card)
+      console.log(card)
       const cardAdd = createCard({ name: card.name, link: card.link });
+      console.log(cardAdd);
       cardsList.addItem(cardAdd);
 
       popupWithAddForm.closePopup();
       //debugger
     })
     .catch((err) => {
-      console.log("Ошибка при добавлении карточек на страницу");
+      console.log(err);"Ошибка при добавлении карточек на страницу"
     });
   }
 },

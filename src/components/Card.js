@@ -4,6 +4,7 @@ export default class Card {
     this._link = data.link;
     this._likes = data.likes.length;
     this._likesArray = data.likes;
+    this._cardId = data._id; // id самой карточки
     //this._likesArray = data.likes.length;
     this._dataOwnerId = data.owner._id; //id приходящий с сервера
     this._ownerId = ownerId; // id мой
@@ -84,7 +85,7 @@ export default class Card {
   // Проверяет есть ли в массиве лайков(this._likesArray) данной карточки мой id(this._ownerId). По результатам проверки отправляется запрос либо на удаление лайка, либо на добавление(см api.toggleLikeCard()). В ответе придет обновленный массив. Его длину и устанавливает на странице setLike().
   isLiked() {
     console.log(this._likesArray);
-    return Boolean(this._likesArray.find((data) => {return data._id === this._ownerId}));
+    return Boolean(this._likesArray.find((data) => {return /*data._id*/this._cardId === this._ownerId}));
   }
 
   // Устанавливает количество лайков = длине приходящего массива лайков и меняет состояние лайка
