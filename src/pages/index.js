@@ -137,7 +137,7 @@ const popupWithAddForm = new PopupWithForm({
     api.postAddCard({ card_name, card_image_link })
     .then(card => {
       console.log(card)
-      const cardAdd = createCard({ name: card.name, link: card.link });
+      const cardAdd = createCard(card);//({ name: card.name, link: card.link, likes: card.likes, cardId: card._id, ownerId: card.owner._id });
       console.log(cardAdd);
       cardsList.addItem(cardAdd);
 
