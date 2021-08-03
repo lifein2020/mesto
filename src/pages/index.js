@@ -71,7 +71,7 @@ function handleLikeCardSubmit(card) {
   api.toggleLikeCard(card._cardId, card.isLiked())
     .then((data) => {
       card.setLike(data);
-      console.log(card)
+      console.log(data)
     })
     .catch((err) => {
       console.log(err);//("Ошибка установки лайка");
