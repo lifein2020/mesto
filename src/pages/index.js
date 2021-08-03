@@ -45,26 +45,12 @@ api.getAboutUserInfo()
   console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
 })
 
-// Попап с подтверждением на удаление карточки
-//const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
-const popupWithSubmitDelite = new PopupWithSubmit(
-  {
-    handleSubmitDelite: (card) => {
-      api.deliteCard(card._cardId)
-        .then(() => {
-          card.deliteCardElement();
-        })
-        .then(() => {
-          popupWithSubmitDelite.closePopup();
-        })
-        .catch(err => console.log(err));
-    }
-  },
-  config.popupDeliteSelector,
-  config.formSelector
-);
+// Попап с подтверждением удаления карточки
+const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
+popupWithSubmitDelite.setEventListeners();
 
-/*function deliteCard(card) {
+function deliteCard(card) {
+  popupWithSubmitDelite.setEventListeners(config.formSelector);
   popupWithSubmitDelite.setFormSubmit(() => {
     api.deliteCard(сard._item._id)//(card.cardId)
       .then(() => {
@@ -76,10 +62,6 @@ const popupWithSubmitDelite = new PopupWithSubmit(
         console.log(err)//("Ошибка при удалении карточки");
       });
   });
-  popupWithSubmitDelite.openPopup();
-}*/
-function deliteCard(card) {
-  popupWithSubmitDelite.setEventListeners(card);
   popupWithSubmitDelite.openPopup();
 }
 
@@ -104,7 +86,7 @@ function createCard(item) {
       data: item,
       ownerId: userData._id, // мой id
       handleLikeCardSubmit: () => handleLikeCardSubmit(card, item),
-      handleDeliteCard: () => {deliteCard(card); console.log(card)},
+      handleDeliteCard: () => deliteCard(card),    //{ console.log(card)},
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
           titleElement: title,
@@ -136,10 +118,7 @@ elements
 api.getInitialCards()
 .then(cardsArray => {
   //console.log(cardsArray);
-
   cardsList.initialCards(cardsArray);
-  //createCard(cardsArray);
-  //popupWithAddForm.setEventListeners(cardsArray);
 }
 )
 .catch((err) => {

@@ -2,10 +2,9 @@ export default class Card {
   constructor({ data, ownerId, handleLikeCardSubmit, handleDeliteCard, handleCardClick}, cardSelector) { //handleCardClick новое название handleShowPopupImageSubmit
     this._name = data.name;
     this._link = data.link;
-    this._likes = data.likes.length;
-    this._likesArray = data.likes;
+    this._likes = data.likes.length; // для устанавливки количества лайков
+    this._likesArray = data.likes; // для проверки лайков
     this._cardId = data._id; // id самой карточки
-    //this._likesArray = data.likes.length;
     this._dataOwnerId = data.owner._id; //id приходящий с сервера
     this._ownerId = ownerId; // id мой
     this._handleLikeCardSubmit =handleLikeCardSubmit;
@@ -49,7 +48,7 @@ export default class Card {
     });
 
     this._elementTrash.addEventListener('click', () => {
-      this._handleDeliteCard(this);
+      this._handleDeliteCard();//(this._cardElement); //(this);
     });
 
     this._newElementImage.addEventListener('click', () => {

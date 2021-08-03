@@ -91,7 +91,7 @@ export default class Api {
   // Удалить лайк
   deliteLikeCard(id) {
     return fetch(`${this.baseUrl}cards/likes/${id}`, {
-      method: 'DELITE',
+      method: 'DELETE',
       headers: this.headers
     })
     .then(this._getResponse);
