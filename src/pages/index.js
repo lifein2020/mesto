@@ -49,12 +49,11 @@ api.getAboutUserInfo()
 const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
 popupWithSubmitDelite.setEventListeners();
 
+// Функция удаления карточки. Здесь мы открываем попап с подтверждением и задаём коллбэк handler в setFormSubmit, где ходим на сервер, локально удаляем карточку и потом закрываем попап.
 function deliteCard(card) {
-  popupWithSubmitDelite.setEventListeners(config.formSelector);
   popupWithSubmitDelite.setFormSubmit(() => {
-    api.deliteCard(сard._item._id)//(card.cardId)
+    api.deliteCard(card._cardId) // см в консоли свойства объекта card
       .then(() => {
-        //console.log(card);
         card.deliteCardElement();
         popupWithSubmitDelite.closePopup();
       })
@@ -78,7 +77,6 @@ function handleLikeCardSubmit(card) {
     })
   };
 
-
 // Создание карточки вынесено в отдельную функцию
 function createCard(item) {
   const card = new Card(
@@ -86,7 +84,7 @@ function createCard(item) {
       data: item,
       ownerId: userData._id, // мой id
       handleLikeCardSubmit: () => handleLikeCardSubmit(card, item),
-      handleDeliteCard: () => deliteCard(card),    //{ console.log(card)},
+      handleDeliteCard: () => deliteCard(card),    //{ deliteCard(card); console.log(card)},
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
           titleElement: title,
