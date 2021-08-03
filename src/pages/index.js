@@ -19,10 +19,6 @@ const FormAvatarValidator = new FormValidator(config, '.popup__form_avatar');
 // Попап с картинкой
 const popupShowCardImage = new PopupWithImage('.popup_type_image');
 
-// Попап с подтверждением на удаление карточки
-//const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector); // почему не работает?
-const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
-
 // Данные профиля на странице
 const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobSelector: '.profile-info__activity'});
 //console.log(profileInfo)
@@ -49,20 +45,44 @@ api.getAboutUserInfo()
   console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
 })
 
-function deliteCard(card) {
+// Попап с подтверждением на удаление карточки
+//const popupWithSubmitDelite = new PopupWithSubmit('.popup_type_confirm');
+const popupWithSubmitDelite = new PopupWithSubmit(
+  {
+    handleSubmitDelite: (card) => {
+      api.deliteCard(card._cardId)
+        .then(() => {
+          card.deliteCardElement();
+        })
+        .then(() => {
+          popupWithSubmitDelite.closePopup();
+        })
+        .catch(err => console.log(err));
+    }
+  },
+  config.popupDeliteSelector,
+  config.formSelector
+);
+
+/*function deliteCard(card) {
   popupWithSubmitDelite.setFormSubmit(() => {
-    api.deliteCard(card.cardId)
+    api.deliteCard(сard._item._id)//(card.cardId)
       .then(() => {
-        console.log(card);
-        card.cardDelite();
+        //console.log(card);
+        card.deliteCardElement();
         popupWithSubmitDelite.closePopup();
       })
       .catch((err) => {
-        console.log("Ошибка при удалении карточки");
+        console.log(err)//("Ошибка при удалении карточки");
       });
   });
   popupWithSubmitDelite.openPopup();
+}*/
+function deliteCard(card) {
+  popupWithSubmitDelite.setEventListeners(card);
+  popupWithSubmitDelite.openPopup();
 }
+
 
 // Ставим/удаляем лайки
 // Сервер отвечает новой карточкой data, в которой массив данных уже обновлен setLike
@@ -72,7 +92,7 @@ function handleLikeCardSubmit(card) {
       card.setLike(data);
     })
     .catch((err) => {
-      console.log ("Ошибка установки лайка");//вместо(`$(err)`);
+      console.log(err);//("Ошибка установки лайка");
     })
   };
 
@@ -83,13 +103,8 @@ function createCard(item) {
     {
       data: item,
       ownerId: userData._id, // мой id
-      handleLikeCardSubmit: (cardInstance) => handleLikeCardSubmit(cardInstance),
-      handleDeliteCard: (cardInstance) => {
-        console.log(cardInstance);
-        deliteCard(cardInstance)
-      },
-        /* либо popupWithSubmitDelite.openPopup();
-        popupWithSubmitDelite.setFormSubmit(() => {}*/
+      handleLikeCardSubmit: () => handleLikeCardSubmit(card, item),
+      handleDeliteCard: () => {deliteCard(card); console.log(card)},
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
           titleElement: title,
@@ -120,7 +135,7 @@ elements
 // Инициализируем карточки после прихода данных с сервера
 api.getInitialCards()
 .then(cardsArray => {
-  console.log(cardsArray);
+  //console.log(cardsArray);
 
   cardsList.initialCards(cardsArray);
   //createCard(cardsArray);
@@ -136,13 +151,11 @@ const popupWithAddForm = new PopupWithForm({
   handleFormSubmit: ({ card_name, card_image_link }) => {
     api.postAddCard({ card_name, card_image_link })
     .then(card => {
-      console.log(card)
       const cardAdd = createCard(card);//({ name: card.name, link: card.link, likes: card.likes, cardId: card._id, ownerId: card.owner._id });
-      console.log(cardAdd);
       cardsList.addItem(cardAdd);
-
+    })
+    .then(() => {
       popupWithAddForm.closePopup();
-      //debugger
     })
     .catch((err) => {
       console.log(err);"Ошибка при добавлении карточек на страницу"
@@ -181,7 +194,7 @@ const popupWithAvatarForm = new PopupWithForm({
   handleFormSubmit: ({ avatar_link }) => {
     api.patchAvatarUser({ avatar_link })
     .then(dataProfile => {
-      console.log(dataProfile)
+      //console.log(dataProfile)
       /*const imageAvatar = document.querySelector('.profile__avatar');
       imageAvatar.setAttribute("src", dataProfile.avatar);*/
       profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, dataProfile);

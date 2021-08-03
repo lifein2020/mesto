@@ -72,7 +72,7 @@ export default class Api {
 
   // Удаление карточки
   deliteCard(id) {
-    return fetch(`${this.baseUrl}cards/${id}`, { //`${this.baseUrl}users/me/avatar`
+    return fetch(`${this.baseUrl}cards/${id}`, {
       method: 'DELETE',
       headers: this.headers
     })

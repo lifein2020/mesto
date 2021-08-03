@@ -65,6 +65,7 @@ export default class Card {
     this._elementTrash.closest('.element').remove();
   }*/
 
+  // метод показывает карзину только на созданных мною карточках
   _showCardTrash() {
     if (this._ownerId === this._dataOwnerId) {
       /*this._trush = this._cardElement.getElementsByClassName('element__trash');
@@ -74,7 +75,7 @@ export default class Card {
     }
   }
 
-  cardDelite() {
+  deliteCardElement() {
     /*this._card = generateCard();
     this._card.remove();
     this._card = null;*/

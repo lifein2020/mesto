@@ -1,6 +1,6 @@
 import Popup from './Popup.js'
 
-export default class PopupWithSubmit extends Popup{
+/*export default class PopupWithSubmit extends Popup{
   constructor(popupSelector) {
     super(popupSelector);
     //this._popupForm = document.querySelector(`${popupFormSelector}`);
@@ -13,6 +13,7 @@ export default class PopupWithSubmit extends Popup{
   }
 
   // Логика работы обработчика отправки формы (handler) описывается во внешней функции deliteCard() и попадает в обработчик при клике на корзину
+
   setFormSubmit(handler) {
     this._handleSubmitCallback = handler;
   }
@@ -26,5 +27,21 @@ export default class PopupWithSubmit extends Popup{
     })
   }
 
+
+}*/
+export default class PopupWithSubmit extends Popup{
+  constructor({ handleSubmitDelite }, popupSelector, popupFormSelector) {
+    super(popupSelector);
+    this._popupForm = this._popupElement.querySelector(`${popupFormSelector}`);
+    this.handleSubmitDelite = handleSubmitDelite;
+  }
+
+  setEventListeners(card) {
+    super.setEventListeners();
+    this._popupForm.addEventListener('submit', (etv) => {
+      etv.preventDefault();
+      this.handleSubmitDelite(card);
+    })
+  }
 
 }
