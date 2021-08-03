@@ -86,7 +86,7 @@ export default class Card {
 
   // Устанавливает количество лайков = длине приходящего массива лайков и меняет состояние лайка
   _updateLike(item){
-    this._cardElement.querySelector(".element__count").textcontent = item.likes.length;
+    this._cardElement.querySelector(".element__count").textContent = item.likes.length;
     // здесь this.isLiked тот, который пришел в результате запроса
     if(this.isLiked()) {
       this._cardElement.querySelector('.element__like').classList.add('.element__like_active');
@@ -98,7 +98,7 @@ export default class Card {
   // Обновление массива с лайками(актуализирует информацию о лайках внутри карточки)
   setLike(item) {
     this._likesArray = item.likes; //первоначальный масив лайков data.likes (присвоен в конструкторе) обновляем массивом,который пришел в результате клика на лайк
-    this._updateLike();
+    this._updateLike(item);
   }
 
 }
