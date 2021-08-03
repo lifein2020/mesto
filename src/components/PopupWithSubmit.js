@@ -1,3 +1,5 @@
+// Попап с кнопкой подтверждения какого-либо действия
+
 import Popup from './Popup.js'
 export default class PopupWithSubmit extends Popup {
 

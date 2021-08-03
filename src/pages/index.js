@@ -68,9 +68,10 @@ function deliteCard(card) {
 // Ставим/удаляем лайки
 // Сервер отвечает новой карточкой data, в которой массив данных уже обновлен setLike
 function handleLikeCardSubmit(card) {
-  api.toggleLikeCard(card.cardId, card.isLiked())
+  api.toggleLikeCard(card._cardId, card.isLiked())
     .then((data) => {
       card.setLike(data);
+      console.log(card)
     })
     .catch((err) => {
       console.log(err);//("Ошибка установки лайка");

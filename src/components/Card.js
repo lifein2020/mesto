@@ -48,7 +48,7 @@ export default class Card {
     });
 
     this._elementTrash.addEventListener('click', () => {
-      this._handleDeliteCard();//(this._cardElement); //(this);
+      this._handleDeliteCard();  // работает без передачи (this)
     });
 
     this._newElementImage.addEventListener('click', () => {
@@ -75,11 +75,7 @@ export default class Card {
   }
 
   deliteCardElement() {
-    /*this._card = generateCard();
-    this._card.remove();
-    this._card = null;*/
     this._cardElement.remove();
-    this._cardElement = null;
   }
 
   // Проверяет есть ли в массиве лайков(this._likesArray) данной карточки мой id(this._ownerId). По результатам проверки отправляется запрос либо на удаление лайка, либо на добавление(см api.toggleLikeCard()). В ответе придет обновленный массив. Его длину и устанавливает на странице setLike().
