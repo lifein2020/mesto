@@ -86,12 +86,12 @@ export default class Card {
 
   // Устанавливает количество лайков = длине приходящего массива лайков и меняет состояние лайка
   _updateLike(item){
-    this._element.querySelector(".element__count").textcontent = item.likes.length;
+    this._cardElement.querySelector(".element__count").textcontent = item.likes.length;
     // здесь this.isLiked тот, который пришел в результате запроса
     if(this.isLiked()) {
-      this._element.querySelector('.element__like').classList.add('.element__like_active');
+      this._cardElement.querySelector('.element__like').classList.add('.element__like_active');
     } else {
-      this._element.querySelector('.element__like').classList.remove('.element__like_active');
+      this._cardElement.querySelector('.element__like').classList.remove('.element__like_active');
     }
   }
 
