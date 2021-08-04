@@ -4,8 +4,7 @@ export default class Card {
     this._link = data.link;
     this._likes = data.likes.length; // для устанавливки количества лайков
     this._likesArray = data.likes; // для проверки лайков массив лайков карточки
-    //this._likesArrayItem = data.likes.item;
-    this._cardId = data._id; // id лайкнутой карточки
+    //this._cardId = data._id; // id лайкнутой карточки
     this._dataOwnerId = data.owner._id; //id приходящий с сервера
     this._ownerId = ownerId; // id мой
     this._handleLikeCardSubmit =handleLikeCardSubmit;
@@ -14,6 +13,7 @@ export default class Card {
     this._cardSelector = cardSelector;
   }
 
+  // получаем разметку карточки
   _getTemplate() {
     const newElement = document
     .querySelector(this._cardSelector)
@@ -24,6 +24,7 @@ export default class Card {
     return newElement;
   }
 
+  // подготовка карточки к рендерингу
   generateCard() {
     this._cardElement = this._getTemplate();
 
@@ -43,6 +44,7 @@ export default class Card {
     return this._cardElement;
   }
 
+  // вешаем слушатели событий на элементы карточки
   _setEventListeners() {
     this._elementLike.addEventListener('click', () => {
       this._handleLikeCardSubmit(this);//this._handleLikeCardSubmit();
@@ -67,6 +69,7 @@ export default class Card {
     }
   }
 
+  // метод удаления элемента карточки
   deliteCardElement() {
     this._cardElement.remove();
   }
@@ -89,9 +92,9 @@ export default class Card {
 }
 
 
-//---------------------- 1 вариант нерабочий-------------------------------
+//---------------------- 1 вариант рабочий-------------------------------
 
-  // Проверяет есть ли в массиве лайков(this._likesArray) данной карточки элемент item, содержащий id === моему id(this._ownerId). По результатам проверки если true, отправляется запрос на удаление лайка, если false - на добавление(см api.toggleLikeCard()). В ответе придет обновленный массив. Его длину и устанавливает на странице setLike().
+  // Проверяет есть ли в массиве лайков(this._likesArray) данной карточки элемент item, содержащий id === моему id(this._ownerId). По результатам проверки: если true, отправляется запрос на удаление лайка, если false - на добавление(см api.toggleLikeCard()). В ответе придет обновленный массив. Его длину и устанавливает на странице setLike() в счетчик лайков. См метод find в MDN.
   /*isLiked() {
     //console.log(this._likesArray);
     return Boolean(this._likesArray.find((item) => {return item._id === this._ownerId}));
@@ -104,9 +107,9 @@ export default class Card {
     this._cardElement.querySelector('.element__count').textContent = item.likes.length;
     // здесь this.isLiked тот, который пришел в результате запроса
     if(this.isLiked()) {
-      this._cardElement.querySelector('.element__like').classList.add('.element__like_active');
+      this._cardElement.querySelector('.element__like').classList.add('element__like_active');
     } else {
-      this._cardElement.querySelector('.element__like').classList.remove('.element__like_active');
+      this._cardElement.querySelector('.element__like').classList.remove('element__like_active');
     }
   }
 
@@ -114,6 +117,6 @@ export default class Card {
   setLike(item) {
     this._likesArray = item.likes; //первоначальный масив лайков data.likes (присвоен в конструкторе) обновляется массивом item, который пришел при ответе с сервера в результате клика на лайк
     this._updateLike(item);
-  }*/
-
+  }
+}*/
 

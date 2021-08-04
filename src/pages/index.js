@@ -67,13 +67,13 @@ function deliteCard(card) {
 }
 
 
-// Ставим/удаляем лайки
+// Ставим/удаляем лайки:
 
-//---------------------- 1 вариант нерабочий-------------------------------
+//---------------------- 1 вариант рабочий-------------------------------
 // Сервер отвечает новой карточкой data, в которой массив лайков уже обновлен
 /*function handleLikeCardSubmit(card) {
   console.log(card)
-  api.toggleLikeCard(card._dataOwnerId, card.isLiked())
+  api.toggleLikeCard(card._cardId, card.isLiked())
     .then((data) => {
       card.setLike(data);
       //console.log(data)

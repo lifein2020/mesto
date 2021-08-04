@@ -4,6 +4,7 @@ export default class Api {
     this.headers = headers;
   }
 
+  // Обработка ответа с сервера
   _getResponse(response) {
     if (response.ok) {
       return response.json();
@@ -11,13 +12,14 @@ export default class Api {
     return Promise.reject(`Ошибка: ${response.status}`);
   }
 
+  // Получение данных пользователя(моих)
   getAboutUserInfo() {
     return fetch(this.baseUrl + 'users/me', {
       headers: this.headers
     }).then(this._getResponse);
   }
 
-  //получение всех карточек
+  // Получение данных всех карточек
   getAboutCardsInfo() {
     return fetch(this.baseUrl + 'cards', { // либо `${this.baseUrl}cards` и в результате конкатенации получается https://mesto.nomoreparties.co/v1/cohort-26/cards
       headers: this.headers
@@ -79,7 +81,8 @@ export default class Api {
     .then(this._getResponse);
   }
 
-  // Удалить лайк
+  // Удалить лайк:
+  //--------- 2 вариант рабочий----------
   deliteLikeCard(id) {
     return fetch(`${this.baseUrl}cards/likes/${id}`, {
       method: 'DELETE',
@@ -88,19 +91,20 @@ export default class Api {
     .then(this._getResponse);
   }
 
-  toggleLikeCard(id, like) {
+  //-------- 1 вариант рабочий---------
+  /*toggleLikeCard(id, like) {
     return fetch(`${this.baseUrl}cards/likes/${id}`, {
-      method: like ? 'DELITE' : 'PUT', //если карточка уже лайкнута(черный лайк), то удалить лайк, иначе поставить
+      method: like ? 'DELETE' : 'PUT', //если карточка уже лайкнута(черный лайк), то удалить лайк, иначе поставить
       headers: this.headers
     })
     .then(this._getResponse);
-  }
+  }*/
 
 }
 
 
 
-
+//********************** другие способы **********************/
 
 /*class Api {
   constructor(config) {
@@ -109,7 +113,7 @@ export default class Api {
   }
 }*/
 
-
+//Несокращенный вид
 /*getInitialCards() {
     return fetch('https://mesto.nomoreparties.co/v1/cohort-42/cards', {
       headers: {
