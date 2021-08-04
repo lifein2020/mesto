@@ -34,10 +34,12 @@ export default class Card {
     this._newElementImage.src = this._link;
     this._newElementTitle.textContent = this._name;
     this._elementLike = this._cardElement.querySelector('.element__like');
+    /* Вместо этих строк вызываем this.setLike(), чтобы лайки сохранялись после перезагрузки
     this._elementLikeCount = this._cardElement.querySelector('.element__count');
-    this._elementLikeCount.textContent = this._likes; // Устанавливаем количество лайков в карточку
+    this._elementLikeCount.textContent = this._likes; // Устанавливаем количество лайков в карточку*/
     this._elementTrash = this._cardElement.querySelector('.element__trash');
 
+    this.setLike({likes: this._likesArray});
     this._showCardTrash();
     this._setEventListeners();
 
