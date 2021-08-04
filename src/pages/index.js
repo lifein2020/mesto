@@ -144,6 +144,7 @@ api.getAboutCardsInfo()
 // Попап добавления карточек на страницу
 const popupWithAddForm = new PopupWithForm({
   handleFormSubmit: ({ card_name, card_image_link }) => {
+    popupWithAddForm.renderLoading(true);
     api.postAddCard({ card_name, card_image_link })
     .then(card => {
       const cardAdd = createCard(card);//({ name: card.name, link: card.link, likes: card.likes, cardId: card._id, ownerId: card.owner._id });
@@ -154,7 +155,10 @@ const popupWithAddForm = new PopupWithForm({
     })
     .catch((err) => {
       console.log(err);"Ошибка при добавлении карточек на страницу"
-    });
+    })
+    .finally(() => {
+      popupWithAddForm.renderLoading(false);
+    })
   }
 },
   config.popupAddSelector,
@@ -166,6 +170,7 @@ const popupWithAddForm = new PopupWithForm({
 const popupWithEditForm = new PopupWithForm(
   {
     handleFormSubmit: ({name, job}) => {
+      popupWithEditForm.renderLoading(true);
       api.patchAboutUserInfo({name, job})
       .then(dataProfile => {
         //console.log(dataProfile)
@@ -175,6 +180,9 @@ const popupWithEditForm = new PopupWithForm(
       })
       .catch((err) => {
         console.log("Ошибка при редактировании профиля"); // выведем ошибку в консоль
+      })
+      .finally(() => {
+        popupWithEditForm.renderLoading(false);
       })
     }
   },
@@ -187,6 +195,7 @@ const popupWithEditForm = new PopupWithForm(
 // Смена аватара
 const popupWithAvatarForm = new PopupWithForm({
   handleFormSubmit: ({ avatar_link }) => {
+    popupWithAvatarForm.renderLoading(true);
     api.patchAvatarUser({ avatar_link })
     .then(dataProfile => {
       profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, dataProfile);
@@ -194,7 +203,10 @@ const popupWithAvatarForm = new PopupWithForm({
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      popupWithAvatarForm.renderLoading(false);
+    })
   }
 },
   config.popupAvatarSelector,
