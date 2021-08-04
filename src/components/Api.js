@@ -18,20 +18,11 @@ export default class Api {
   }
 
   //получение всех карточек
-  getInitialCards() {
+  getAboutCardsInfo() {
     return fetch(this.baseUrl + 'cards', { // либо `${this.baseUrl}cards` и в результате конкатенации получается https://mesto.nomoreparties.co/v1/cohort-26/cards
       headers: this.headers
     }).then(this._getResponse);
   }
-// Создаём массив с промисами
-  //const promises = [firstPromise, secondPromise]
-
-// Передаём массив с промисами методу Promise.all
-
-  /*Promise.all(promises)
-  .then((results) => {
-    console.log(results); // ["Первый промис", "Второй промис"]
-  });*/
 
   // Добавление карточек
   postAddCard({ card_name, card_image_link }) {

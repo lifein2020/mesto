@@ -33,6 +33,7 @@ const api = new Api({
 
 let userData
 
+
 api.getAboutUserInfo()
 .then((result) => {
   //console.log(result);
@@ -51,6 +52,7 @@ popupWithSubmitDelite.setEventListeners();
 
 // Функция удаления карточки. Здесь мы открываем попап с подтверждением и задаём коллбэк handler в setFormSubmit, где ходим на сервер, локально удаляем карточку и потом закрываем попап.
 function deliteCard(card) {
+  console.log(card)
   popupWithSubmitDelite.setFormSubmit(() => {
     api.deliteCard(card._cardId) // см в консоли свойства объекта card
       .then(() => {
@@ -66,17 +68,32 @@ function deliteCard(card) {
 
 
 // Ставим/удаляем лайки
-// Сервер отвечает новой карточкой data, в которой массив данных уже обновлен setLike
-function handleLikeCardSubmit(card) {
-  api.toggleLikeCard(card._cardId, card.isLiked())
+
+//---------------------- 1 вариант нерабочий-------------------------------
+// Сервер отвечает новой карточкой data, в которой массив лайков уже обновлен
+/*function handleLikeCardSubmit(card) {
+  console.log(card)
+  api.toggleLikeCard(card._dataOwnerId, card.isLiked())
     .then((data) => {
       card.setLike(data);
-      console.log(data)
+      //console.log(data)
     })
     .catch((err) => {
       console.log(err);//("Ошибка установки лайка");
     })
-  };
+  };*/
+
+//---------------------- 2 вариант рабочий-------------------------------
+  function handleLikeCardSubmit(card, data) {
+    const promise = card.isLiked() ? api.deliteLikeCard(data._id) : api.putLikeCard(data._id);
+    promise
+      .then((data) => {
+        card.setLike(data);
+      })
+      .catch((err) => {
+        console.log(err)//(`${err}`);
+      });
+  }
 
 // Создание карточки вынесено в отдельную функцию
 function createCard(item) {
@@ -84,7 +101,7 @@ function createCard(item) {
     {
       data: item,
       ownerId: userData._id, // мой id
-      handleLikeCardSubmit: () => handleLikeCardSubmit(card, item),
+      handleLikeCardSubmit: () => handleLikeCardSubmit(card, item), //(card) для 1 варианта
       handleDeliteCard: () => deliteCard(card),    //{ deliteCard(card); console.log(card)},
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
@@ -114,14 +131,14 @@ elements
 );
 
 // Инициализируем карточки после прихода данных с сервера
-api.getInitialCards()
+api.getAboutCardsInfo()
 .then(cardsArray => {
   //console.log(cardsArray);
   cardsList.initialCards(cardsArray);
 }
 )
 .catch((err) => {
-  console.log("Ошибка при получении карточек с сервера");
+  console.log(err)//("Ошибка при получении карточек с сервера");
 });
 
 // Попап добавления карточек на страницу
@@ -172,9 +189,6 @@ const popupWithAvatarForm = new PopupWithForm({
   handleFormSubmit: ({ avatar_link }) => {
     api.patchAvatarUser({ avatar_link })
     .then(dataProfile => {
-      //console.log(dataProfile)
-      /*const imageAvatar = document.querySelector('.profile__avatar');
-      imageAvatar.setAttribute("src", dataProfile.avatar);*/
       profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, dataProfile);
       popupWithAvatarForm.closePopup();
     })
@@ -232,138 +246,15 @@ buttonOpenPopupAdd.addEventListener('click', () => openPopupAdd())
 buttonOpenPopupAvatar.addEventListener('click', () => openPopupAvatar());
 
 
+//получение персональных данных с сервера и массива карточек
 
-
-
-
-//******************************************************************************/
-/* Замена аватара
-const popupWithAvatarForm = new PopupWithForm({
-  handleFormSubmit: ({ avatar_link }) => {
-    /*fetch('https://mesto.nomoreparties.co/v1/cohort-26/users/me/avatar', {
-      method: 'PATCH',
-      headers: {
-        authorization: 'd11963a5-3631-4d4e-b873-aed64d959e3c',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        avatar: avatar_link
-      })
-    })
-    .then(res => {
-      if (res.ok) {
-        //console.log(res);
-        return res.json();
-
-      }
-    return Promise.reject(`Ошибка: ${res.status}`);
-    })
-    //api.patchAvatarUser({ avatar_link })
-    .then(data => {
-      //console.log(data)
-      const imageAvatar = document.querySelector('.profile__avatar');
-      imageAvatar.setAttribute("src", data.avatar);
-      popupWithAvatarForm.closePopup();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-},
-  config.popupAvatarSelector,
-  config.formSelector,
-  config.inputSelector
-)*/
-
-
-//*****************  8sprint  ********************/
-
-// Попап добавления карточек на страницу
-/*const popupWithAddForm = new PopupWithForm({
-  handleFormSubmit: ({ card_name, card_image_link }) => {
-    const cardAdd = createCard({ name: card_name, link: card_image_link });
-    cardsList.addItem(cardAdd);  //elements.prepend(cardAdd);
-    popupWithAddForm.closePopup();
-  }
-},
-  config.popupAddSelector, //'.popup_type_add-card',
-  config.formSelector,   //'.popup__form_add',
-  config.inputSelector // '.popup__input',
-);*/
-
-// Отображение картинок по дефолту
-/*const cardsList = new Section ({
-  data: initialCards,
-  renderer: (currentItem) => {
-    const card = new Card({
-      /*handleCardClick: (name, link) => {
-        //popupShowCardImage.openPopup({link, name}, '.popup__image',
-        //'.popup__title-image');
-
-      handleCardClick: () => {
-        popupShowCardImage.openPopup({
-          linkElement: currentItem.link,
-          titleElement: currentItem.name},
-          '.popup__image',
-          '.popup__title-image'
-          );
-      }
-    },
-    currentItem,
-    '#element-template',
-    '.popup_is-opened');
-    const newCard = card.generateCard();
-    elements.append(newCard);
-  }
-
-},
-elements //'.elements'
-);*/
-
-/*// Данные профиля на странице
-const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobselector: '.profile-info__activity'});
-
-// Попап редактирования профиля
-const popupWithEditForm = new PopupWithForm(
-  {
-    handleFormSubmit: ({name, job}) => {
-      profileInfo.setUserInfo({name, job});
-      popupWithEditForm.closePopup();
-    }
-  },
-  config.popupEditSelector,//'.popup_type_edit',
-  config.formSelector,//'.popup__form_edit',
-  config.inputSelector//'.popup__input',
-);*/
-
-// Попап добавления карточек на страницу
-/*const popupWithAddForm = new PopupWithForm({
-    handleFormSubmit: ({ card_name, card_image_link }) => {
-      const card = new Card(
-        {
-          handleCardClick: () => {
-            popupShowCardImage.openPopup(
-              {
-                linkElement: card_image_link,
-                titleElement: card_name,
-              },
-              '.popup__image',
-              '.popup__title-image'
-            );
-          }
-        },
-        { name: card_name, link: card_image_link }, // это this._getInputValues()
-        '#element-template',
-        '.popup_is-opened'
-      );
-      const newCard = card.generateCard();
-      elements.prepend(newCard);
-      popupWithAddForm.closePopup();
-
-      FormAddValidator.setSubmitButtonInactiveState(formAddElement);
-    }
-  },
-  '.popup_type_add-card',
-  '.popup__form_add',
-  '.popup__input',
-);*/
+/*Promise.all([api.getAboutCardsInfo(), api.getAboutUserInfo()])
+.then(([result, { userAvatarSelector: '.profile__avatar' }, cardsArray ]) => {
+  profileInfo.setUserInfo(result);
+  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
+  userData = result;
+  cardsList.initialCards(cardsArray);
+})
+.catch((err) => {
+  console.log(err);//(`${err}`);
+});*/
