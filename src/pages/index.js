@@ -12,9 +12,9 @@ import { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, formAdd
 
 //-------------Создание экземпляров классов-----------------
 
-const FormEditValidator = new FormValidator(config, '.popup__form_edit');
-const FormAddValidator = new FormValidator(config, '.popup__form_add');
-const FormAvatarValidator = new FormValidator(config, '.popup__form_avatar');
+const formEditValidator = new FormValidator(config, '.popup__form_edit');
+const formAddValidator = new FormValidator(config, '.popup__form_add');
+const formAvatarValidator = new FormValidator(config, '.popup__form_avatar');
 
 // Попап с картинкой
 const popupShowCardImage = new PopupWithImage('.popup_type_image');
@@ -23,6 +23,7 @@ const popupShowCardImage = new PopupWithImage('.popup_type_image');
 const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobSelector: '.profile-info__activity'});
 //console.log(profileInfo)
 
+// Экземпляр класса Api
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-26/',
   headers: {
@@ -31,8 +32,8 @@ const api = new Api({
   }
 });
 
-let userData
-
+// Данные ползователя
+let userData = null;
 
 api.getAboutUserInfo()
 .then((result) => {
@@ -46,13 +47,25 @@ api.getAboutUserInfo()
   console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
 })
 
+// Запрос, объединяющий запросы на получение массива карточек с сервера и персональных данных пользователя. Чтобы корректно отображались лайки и кнопки удаления на собственных карточках. В then очень важен порядок выполнения кода, т.к. он тут выполняется синхронно.
+/*Promise.all([api.getAboutCardsInfo(), api.getAboutUserInfo()])
+.then(([cardsArray, result]) => {   // приходящие данные перечислять в том же порядке, что и в массиве с запросами
+  userData = result;                // сначала получить userData потом ее использовать методах ниже
+  cardsList.initialCards(cardsArray);
+  profileInfo.setUserInfo(result);
+  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
+})
+.catch((err) => {
+  console.log(err);//(`${err}`);
+});*/
+
 // Попап с подтверждением удаления карточки
 const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
 popupWithSubmitDelite.setEventListeners();
 
 // Функция удаления карточки. Здесь мы открываем попап с подтверждением и задаём коллбэк handler в setFormSubmit, где ходим на сервер, локально удаляем карточку и потом закрываем попап.
 function deliteCard(card) {
-  console.log(card)
+  //console.log(card)
   popupWithSubmitDelite.setFormSubmit(() => {
     api.deliteCard(card._cardId) // см в консоли свойства объекта card
       .then(() => {
@@ -65,7 +78,6 @@ function deliteCard(card) {
   });
   popupWithSubmitDelite.openPopup();
 }
-
 
 // Ставим/удаляем лайки:
 
@@ -102,7 +114,7 @@ function createCard(item) {
       data: item,
       ownerId: userData._id, // мой id
       handleLikeCardSubmit: () => handleLikeCardSubmit(card, item), //(card) для 1 варианта
-      handleDeliteCard: () => deliteCard(card),    //{ deliteCard(card); console.log(card)},
+      handleDeliteCard: () => { deliteCard(card); console.log(card)},//deliteCard(card),    //{ deliteCard(card); console.log(card)},
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
           titleElement: title,
@@ -121,7 +133,7 @@ function createCard(item) {
 
 // Отрисовка картинок по дефолту
 const cardsList = new Section ({
-  //data: initialCards, // конструктор создается раньше, чем приходят данные. Поэтому ассинхронно приходящие данные передаем напрямую в метод initialCards(см ниже)
+  //data: initialCards, // конструктор создается раньше, чем приходят данные. Поэтому ассинхронно приходящие данные передаем напрямую в метод initialCards(см Promise.all)
   renderer: (currentItem) => {
     const defoltCard = createCard(currentItem);
     cardsList.addItem(defoltCard);
@@ -212,7 +224,7 @@ const popupWithAvatarForm = new PopupWithForm({
   config.popupAvatarSelector,
   config.formSelector,
   config.inputSelector
-)
+);
 
 // ------------------------ Функции, описывающие взаимодействие классов ----------------------
 
@@ -222,29 +234,29 @@ function openPopupEdit() {
   formEditInputName.value = userData.userName;
   formEditInputJob.value = userData.userActivity;
   popupWithEditForm.openPopup();
-  FormEditValidator.hideInputError(formEditElement);
-  FormEditValidator.setSubmitButtonActiveState(formEditElement);
+  formEditValidator.hideInputError(formEditElement);
+  formEditValidator.setSubmitButtonActiveState(formEditElement);
 };
 
 // Функция открытия попапа добавления карточки
 function openPopupAdd() {
   popupWithAddForm.openPopup();
-  FormAddValidator.hideInputError(formAddElement);
-  FormAddValidator.setSubmitButtonInactiveState(formAddElement);
+  formAddValidator.hideInputError(formAddElement);
+  formAddValidator.setSubmitButtonInactiveState(formAddElement);
 }
 
 // Функция открытия попапа смены аватара
 function openPopupAvatar() {
   popupWithAvatarForm.openPopup();
-  FormAvatarValidator.hideInputError(formAvatarElement);
-  FormAvatarValidator.setSubmitButtonActiveState(formAvatarElement);
+  formAvatarValidator.hideInputError(formAvatarElement);
+  formAvatarValidator.setSubmitButtonActiveState(formAvatarElement);
 }
 
 // ------------------------Вызов методов экземпляров----------------------
 
-FormEditValidator.enableValidation();
-FormAddValidator.enableValidation();
-FormAvatarValidator.enableValidation();
+formEditValidator.enableValidation();
+formAddValidator.enableValidation();
+formAvatarValidator.enableValidation();
 
 popupShowCardImage.setEventListeners();
 popupWithSubmitDelite.setEventListeners();
@@ -254,19 +266,36 @@ popupWithAvatarForm.setEventListeners();
 
 //buttonOpenPopupAdd.addEventListener('click', () => popupWithAddForm.openPopup());
 buttonOpenPopupEdit.addEventListener('click', () => openPopupEdit());
-buttonOpenPopupAdd.addEventListener('click', () => openPopupAdd())
+buttonOpenPopupAdd.addEventListener('click', () => openPopupAdd());
 buttonOpenPopupAvatar.addEventListener('click', () => openPopupAvatar());
 
 
-//получение персональных данных с сервера и массива карточек
 
-/*Promise.all([api.getAboutCardsInfo(), api.getAboutUserInfo()])
-.then(([result, { userAvatarSelector: '.profile__avatar' }, cardsArray ]) => {
-  profileInfo.setUserInfo(result);
-  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
+
+//**********************************************************************/
+
+// Эти 2 запроса объединили в 1 - Promise.all
+/*api.getAboutUserInfo()
+.then((result) => {
+  //console.log(result);
   userData = result;
-  cardsList.initialCards(cardsArray);
+  //console.log(userData)
+  profileInfo.setUserInfo(result); //чтобы данные сохранялись после перезагрузки страницы
+  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
 })
 .catch((err) => {
-  console.log(err);//(`${err}`);
+  console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
+})*/
+
+
+// Инициализируем карточки после прихода данных с сервера
+/*api.getAboutCardsInfo()
+.then(cardsArray => {
+  //console.log(cardsArray);
+  cardsList.initialCards(cardsArray);
+}
+)
+.catch((err) => {
+  console.log(err)//("Ошибка при получении карточек с сервера");
 });*/
+

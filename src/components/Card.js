@@ -4,7 +4,7 @@ export default class Card {
     this._link = data.link;
     this._likes = data.likes.length; // для устанавливки количества лайков
     this._likesArray = data.likes; // для проверки лайков массив лайков карточки
-    //this._cardId = data._id; // id лайкнутой карточки
+    this._cardId = data._id; // id удаляемой карточки
     this._dataOwnerId = data.owner._id; //id приходящий с сервера
     this._ownerId = ownerId; // id мой
     this._handleLikeCardSubmit =handleLikeCardSubmit;
