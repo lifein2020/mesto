@@ -33,7 +33,10 @@ export default class Popup {
     });
   }
 
-  /* вместо
+}
+
+
+/* вместо
 
   _closePopupOverlay(evt) {
     if (evt.target.classList.contains('popup')) {
@@ -53,5 +56,3 @@ export default class Popup {
     this._buttonClosePopup.addEventListener('click', () => this.closePopup());
     this._popupElement.addEventListener('mousedown', this._closePopupOverlay);
   }*/
-}
-

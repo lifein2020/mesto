@@ -1,8 +1,9 @@
 //Класс отвечает за управление отображением информации о пользователе на странице
 export default class UserInfo {
-  constructor ({userNameSelector, userJobSelector}) {
+  constructor ({userNameSelector, userJobSelector, userAvatarSelector}) {
     this._userNameElement = document.querySelector(`${userNameSelector}`);
     this._userActivityElement = document.querySelector(`${userJobSelector}`);
+    this._userAvatarElement = document.querySelector(`${userAvatarSelector}`);
   }
 
   // Возвращает объект с данными пользователя. Пригодится когда данные пользователя нужно будет подставить в форму при открытии.
@@ -16,10 +17,10 @@ export default class UserInfo {
     this._userActivityElement.textContent = data.about; //было inputValues.job;
 }
 
-  setUserAvatar({userAvatarSelector}, data) {
-    this._userAvatarElement = document.querySelector(`${userAvatarSelector}`);
+  setUserAvatar(data) {
     this._userAvatarElement.setAttribute("src", data.avatar);
   }
+
 }
 
 

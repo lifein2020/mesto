@@ -24,7 +24,7 @@ class FormValidator {
 
   // Валидация форм
   enableValidation() {
-    this._formElement = this._getForm();
+    this._formElement = this._getForm();  //доступна везде внутри любого метода
     this._formElement.addEventListener('submit', this._handleFormSubmit);
     this._formElement.addEventListener('input', (event) => this._handleFormInput(event));
   }

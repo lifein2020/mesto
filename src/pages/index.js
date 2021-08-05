@@ -20,7 +20,7 @@ const formAvatarValidator = new FormValidator(config, '.popup__form_avatar');
 const popupShowCardImage = new PopupWithImage('.popup_type_image');
 
 // Данные профиля на странице
-const profileInfo = new UserInfo({userNameSelector: '.profile-info__name', userJobSelector: '.profile-info__activity'});
+const profileInfo = new UserInfo({ userNameSelector: '.profile-info__name', userJobSelector: '.profile-info__activity', userAvatarSelector: '.profile__avatar' });
 //console.log(profileInfo)
 
 // Экземпляр класса Api
@@ -35,7 +35,7 @@ const api = new Api({
 // Данные ползователя
 let userData = null;
 
-api.getAboutUserInfo()
+/*api.getAboutUserInfo()
 .then((result) => {
   //console.log(result);
   userData = result;
@@ -45,19 +45,19 @@ api.getAboutUserInfo()
 })
 .catch((err) => {
   console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
-})
+})*/
 
 // Запрос, объединяющий запросы на получение массива карточек с сервера и персональных данных пользователя. Чтобы корректно отображались лайки и кнопки удаления на собственных карточках. В then очень важен порядок выполнения кода, т.к. он тут выполняется синхронно.
-/*Promise.all([api.getAboutCardsInfo(), api.getAboutUserInfo()])
+Promise.all([api.getAboutCardsInfo(), api.getAboutUserInfo()])
 .then(([cardsArray, result]) => {   // приходящие данные перечислять в том же порядке, что и в массиве с запросами
   userData = result;                // сначала получить userData потом ее использовать методах ниже
   cardsList.initialCards(cardsArray);
   profileInfo.setUserInfo(result);
-  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
+  profileInfo.setUserAvatar(result);
 })
 .catch((err) => {
   console.log(err);//(`${err}`);
-});*/
+});
 
 // Попап с подтверждением удаления карточки
 const popupWithSubmitDelite = new PopupWithSubmit(config.popupDeliteSelector);
@@ -67,7 +67,7 @@ popupWithSubmitDelite.setEventListeners();
 function deliteCard(card) {
   //console.log(card)
   popupWithSubmitDelite.setFormSubmit(() => {
-    api.deliteCard(card._cardId) // см в консоли свойства объекта card
+    api.deliteCard(card.cardId) // cardId - неприватное поле класса Card,см в консоли свойства объекта card
       .then(() => {
         card.deliteCardElement();
         popupWithSubmitDelite.closePopup();
@@ -135,15 +135,15 @@ function createCard(item) {
 const cardsList = new Section ({
   //data: initialCards, // конструктор создается раньше, чем приходят данные. Поэтому ассинхронно приходящие данные передаем напрямую в метод initialCards(см Promise.all)
   renderer: (currentItem) => {
-    const defoltCard = createCard(currentItem);
-    cardsList.addItem(defoltCard);
+    const card = createCard(currentItem); //card - это карточка с сервера
+    cardsList.addItem(card);
   }
 },
 elements
 );
 
 // Инициализируем карточки после прихода данных с сервера
-api.getAboutCardsInfo()
+/*api.getAboutCardsInfo()
 .then(cardsArray => {
   //console.log(cardsArray);
   cardsList.initialCards(cardsArray);
@@ -151,7 +151,7 @@ api.getAboutCardsInfo()
 )
 .catch((err) => {
   console.log(err)//("Ошибка при получении карточек с сервера");
-});
+});*/
 
 // Попап добавления карточек на страницу
 const popupWithAddForm = new PopupWithForm({
@@ -210,8 +210,9 @@ const popupWithAvatarForm = new PopupWithForm({
     popupWithAvatarForm.renderLoading(true);
     api.patchAvatarUser({ avatar_link })
     .then(dataProfile => {
-      profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, dataProfile);
-      popupWithAvatarForm.closePopup();
+      profileInfo.setUserAvatar(dataProfile);
+      popupWithAvatarForm.closePopup();       // попап закрывается только при удачном ответе от сервера
+      console.log(dataProfile)
     })
     .catch((err) => {
       console.log(err);
