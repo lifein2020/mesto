@@ -49,7 +49,7 @@ export default class Card {
   // вешаем слушатели событий на элементы карточки
   _setEventListeners() {
     this._elementLike.addEventListener('click', () => {
-      this._handleLikeCardSubmit(this);//this._handleLikeCardSubmit();
+      this._handleLikeCardSubmit(this);
     });
 
     this._elementTrash.addEventListener('click', () => {
@@ -64,9 +64,6 @@ export default class Card {
   // метод показывает карзину только на созданных мною карточках
   _showCardTrash() {
     if (this._ownerId === this._dataOwnerId) {
-      /*this._trush = this._cardElement.getElementsByClassName('element__trash');
-      this._trush.className.remove('element__trash');*/
-
       this._cardElement.querySelector('.element__trash').classList.add('element__trash_visible');
     }
   }
@@ -76,7 +73,7 @@ export default class Card {
     this._cardElement.remove();
   }
 
-  //---------------------- 2 вариант рабочий-------------------------------
+  //---------------------- 2 вариант установки лайков рабочий-------------------------------
   isLiked() {
     return this._isLiked;
   }
@@ -94,7 +91,7 @@ export default class Card {
 }
 
 
-//---------------------- 1 вариант рабочий-------------------------------
+//---------------------- 1 варианту становки лайков  рабочий-------------------------------
 
   // Проверяет есть ли в массиве лайков(this._likesArray) данной карточки элемент item, содержащий id === моему id(this._ownerId). По результатам проверки: если true, отправляется запрос на удаление лайка, если false - на добавление(см api.toggleLikeCard()). В ответе придет обновленный массив. Его длину и устанавливает на странице setLike() в счетчик лайков. См метод find в MDN.
   /*isLiked() {

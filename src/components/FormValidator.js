@@ -1,7 +1,7 @@
 export default
 class FormValidator {
   constructor(config, formObject) {
-    //переменные из конфига
+    //значения полей конструктор - переменные из конфига
     this._inputSelector = config.inputSelector;
     this._submitButtonSelector = config.submitButtonSelector;
     this._activeButtonClass = config.activeButtonClass;
@@ -40,6 +40,7 @@ class FormValidator {
     this._input = event.target; //элемент который отправил это событие, инпут инициализирует событие и в таргет попадает именно он
     this._form = event.currentTarget; //то на что повесили событие
 
+    // Если надо установить кастомные тексты ошибок:
     //Шаг 1. Найдем невалидные поля и установаим кастомные тексты ошибок (не по ТЗ)
     /*this._setCustomError(this._input);*/
 
@@ -75,9 +76,9 @@ class FormValidator {
 }*/
 
   //Показываем ошибку
-_showError(input, form) {
+_showError(input) {
   //получаем спан и присваиваем ему значение этой ошибки
-  this._span = form.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
+  this._span = this._formElement.querySelector(`.${input.id}-error`); // находим сразу все спаны у всех инпутов через ${}
   this._span.textContent = input.validationMessage; // validationMessage - стандартные браузерные тексты ошибок. Это сообщение, которое установится в setCustomValidity. "Связываем JS-методы валидации с DOM"
   this._span.classList.add(this._errorClass);
   this._span.classList.remove(this._errorClassUnvisible);
@@ -85,8 +86,8 @@ _showError(input, form) {
 }
 
 // спрятать ошибку
-_hideError(input, form) {
-  this._span = form.querySelector(`.${input.id}-error`);
+_hideError(input) {
+  this._span = this._formElement.querySelector(`.${input.id}-error`);
   this._span.textContent = "";
   this._span.classList.remove(this._errorClass);
   this._span.classList.add(this._errorClassUnvisible);
@@ -94,42 +95,42 @@ _hideError(input, form) {
 }
 
 // проверка валидности полей формы
-_checkInputValidity(input, form) {
+_checkInputValidity(input) {
   this._validity = input.validity;
   input.setCustomValidity("");
 
   if (!this._validity.valid) {
-    this._showError(input, form);
+    this._showError(input);
   }
   else {
-    this._hideError(input, form);
+    this._hideError(input);
   }
 }
 
 // спрятать ошибку во всех инпутах
-hideInputError(form) {
-  this._inputList = Array.from(form.querySelectorAll(this._inputSelector));
+hideInputError() {
+  this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
   this._inputList.forEach((inputElement) => {
-    this._hideError(inputElement, form);
+    this._hideError(inputElement);
   });
 }
 
 // Переключение состояния кнопки в зависимости от валидности полей
-_toggleSubmitButtonState(form) {
-  this._button = form.querySelector(this._submitButtonSelector);
-  this._isValid = form.checkValidity();
+_toggleSubmitButtonState() {
+  this._button = this._formElement.querySelector(this._submitButtonSelector);
+  this._isValid = this._formElement.checkValidity();
 
   if (this._isValid) {
-    this.setSubmitButtonActiveState(form);
+    this.setSubmitButtonActiveState();
   } else {
-    this.setSubmitButtonInactiveState(form);
+    this.setSubmitButtonInactiveState();
   }
 }
 
 // активация кнопки submit
-setSubmitButtonActiveState(form) {
-  this._button = form.querySelector(this._submitButtonSelector);
-  this._isValid = form.checkValidity();
+setSubmitButtonActiveState() {
+  this._button = this._formElement.querySelector(this._submitButtonSelector);
+  this._isValid = this._formElement.checkValidity();
 
   this._button.classList.add(this._activeButtonClass);
   this._button.classList.remove(this._inactiveButtonClass);
@@ -137,9 +138,9 @@ setSubmitButtonActiveState(form) {
 }
 
 // деактивация кнопки submit
-setSubmitButtonInactiveState(form) {
-  this._button = form.querySelector(this._submitButtonSelector);
-  this._isValid = form.checkValidity();
+setSubmitButtonInactiveState() {
+  this._button = this._formElement.querySelector(this._submitButtonSelector);
+  this._isValid = this._formElement.checkValidity();
 
   this._button.classList.remove(this._activeButtonClass);
   this._button.classList.add(this._inactiveButtonClass);

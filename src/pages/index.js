@@ -8,7 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 import PopupWithSubmit from '../components/PopupWithSubmit.js';
-import { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, formAddElement, formEditElement, formAvatarElement, formEditInputName, formEditInputJob, popupImage, popupTitle, elements, elementCount, config} from '../utils/constants.js';
+import { buttonOpenPopupEdit, buttonOpenPopupAdd, buttonOpenPopupAvatar, formEditInputName, formEditInputJob, popupImage, popupTitle, elements, config} from '../utils/constants.js';
 
 //-------------Создание экземпляров классов-----------------
 
@@ -17,7 +17,7 @@ const formAddValidator = new FormValidator(config, '.popup__form_add');
 const formAvatarValidator = new FormValidator(config, '.popup__form_avatar');
 
 // Попап с картинкой
-const popupShowCardImage = new PopupWithImage('.popup_type_image');
+const popupShowCardImage = new PopupWithImage('.popup_type_image', popupImage, popupTitle);
 
 // Данные профиля на странице
 const profileInfo = new UserInfo({ userNameSelector: '.profile-info__name', userJobSelector: '.profile-info__activity', userAvatarSelector: '.profile__avatar' });
@@ -34,18 +34,6 @@ const api = new Api({
 
 // Данные ползователя
 let userData = null;
-
-/*api.getAboutUserInfo()
-.then((result) => {
-  //console.log(result);
-  userData = result;
-  //console.log(userData)
-  profileInfo.setUserInfo(result); //чтобы данные сохранялись после перезагрузки страницы
-  profileInfo.setUserAvatar({ userAvatarSelector: '.profile__avatar' }, result);
-})
-.catch((err) => {
-  console.log("Ошибка в получении данных пользователя"); // выведем ошибку в консоль
-})*/
 
 // Запрос, объединяющий запросы на получение массива карточек с сервера и персональных данных пользователя. Чтобы корректно отображались лайки и кнопки удаления на собственных карточках. В then очень важен порядок выполнения кода, т.к. он тут выполняется синхронно.
 Promise.all([api.getAboutCardsInfo(), api.getAboutUserInfo()])
@@ -114,14 +102,12 @@ function createCard(item) {
       data: item,
       ownerId: userData._id, // мой id
       handleLikeCardSubmit: () => handleLikeCardSubmit(card, item), //(card) для 1 варианта
-      handleDeliteCard: () => { deliteCard(card); console.log(card)},//deliteCard(card),    //{ deliteCard(card); console.log(card)},
+      handleDeliteCard: () => deliteCard(card),                     //{ deliteCard(card); console.log(card)},
       handleCardClick: (title, image) => {
         popupShowCardImage.openPopup({
           titleElement: title,
           linkElement: image
-        },
-          popupImage, //'.popup__image',
-          popupTitle //'.popup__title-image'  Мы не должны хардкодить селекторы вручную.
+        }
         )
       }
     },
@@ -141,17 +127,6 @@ const cardsList = new Section ({
 },
 elements
 );
-
-// Инициализируем карточки после прихода данных с сервера
-/*api.getAboutCardsInfo()
-.then(cardsArray => {
-  //console.log(cardsArray);
-  cardsList.initialCards(cardsArray);
-}
-)
-.catch((err) => {
-  console.log(err)//("Ошибка при получении карточек с сервера");
-});*/
 
 // Попап добавления карточек на страницу
 const popupWithAddForm = new PopupWithForm({
@@ -203,7 +178,6 @@ const popupWithEditForm = new PopupWithForm(
   config.inputSelector
 )
 
-
 // Смена аватара
 const popupWithAvatarForm = new PopupWithForm({
   handleFormSubmit: ({ avatar_link }) => {
@@ -212,7 +186,7 @@ const popupWithAvatarForm = new PopupWithForm({
     .then(dataProfile => {
       profileInfo.setUserAvatar(dataProfile);
       popupWithAvatarForm.closePopup();       // попап закрывается только при удачном ответе от сервера
-      console.log(dataProfile)
+      //console.log(dataProfile)
     })
     .catch((err) => {
       console.log(err);
@@ -235,22 +209,22 @@ function openPopupEdit() {
   formEditInputName.value = userData.userName;
   formEditInputJob.value = userData.userActivity;
   popupWithEditForm.openPopup();
-  formEditValidator.hideInputError(formEditElement);
-  formEditValidator.setSubmitButtonActiveState(formEditElement);
+  formEditValidator.hideInputError();
+  formEditValidator.setSubmitButtonActiveState();
 };
 
 // Функция открытия попапа добавления карточки
 function openPopupAdd() {
   popupWithAddForm.openPopup();
-  formAddValidator.hideInputError(formAddElement);
-  formAddValidator.setSubmitButtonInactiveState(formAddElement);
+  formAddValidator.hideInputError();
+  formAddValidator.setSubmitButtonInactiveState();
 }
 
 // Функция открытия попапа смены аватара
 function openPopupAvatar() {
   popupWithAvatarForm.openPopup();
-  formAvatarValidator.hideInputError(formAvatarElement);
-  formAvatarValidator.setSubmitButtonActiveState(formAvatarElement);
+  formAvatarValidator.hideInputError();
+  formAvatarValidator.setSubmitButtonActiveState();
 }
 
 // ------------------------Вызов методов экземпляров----------------------
