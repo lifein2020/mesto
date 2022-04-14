@@ -1,4 +1,4 @@
-# Mesto (project 12)
+# Mesto
 
 ### An interactive page where you can add photos, view, delete and put likes them, edit profile data and change the avatar. 
 
